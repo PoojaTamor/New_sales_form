@@ -232,62 +232,62 @@ const formattedTime = now.toLocaleTimeString('en-GB', {
       </div>
     <div class="modal-body">
       <div class="row g-2">
-        <div class="col-lg-4 col-6  mb-3">
+        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
           <div class="label">Customer Name</div>
             <div class="value">
               <input type="text" class="form-control" id="cf_name" value="${(form.fname?.value || "") + ' ' + (form.lname?.value || "")}" disabled>
               </div>
         </div>
-        <div class="col-lg-4 col-6  mb-3">
+        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
           <div class="label">Phone Number</div>
             <div class="value">
               <input type="text" class="form-control" id="cf_phone" value="${form.phoneNumber?.value || ""}" disabled>
               </div>
         </div>
        
-        <div class="col-lg-4 col-6  mb-3">
+        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
           <div class="label">Vehicle Number</div>
             <div class="value">
               <input type="text" class="form-control" id="cf_number" value="${form.Car_Number?.value || ""}" disabled>
               </div>
         </div>
-        <div class="col-lg-4 col-6  mb-3">
+        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
           <div class="label">Vehicle Brand</div>
             <div class="value">
               <input type="text" class="form-control" id="cf_brand" value="${form.Brand?.value || ""}" disabled>
               </div>
         </div>
-        <div class="col-lg-4 col-6  mb-3">
+        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
           <div class="label">Vehicle Model</div>
             <div class="value">
               <input type="text" class="form-control" id="cf_model" value="${form.Model?.value === 'Other' ? form.OtherModel?.value || '' : form.Model?.value || ''}" disabled>
               </div>
         </div>
-        <div class="col-lg-4 col-6  mb-3">
+        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
           <div class="label">Vehicle Color</div>
             <div class="value">
               <input type="text" class="form-control" id="cf_color" value="${form.CarColor?.value === 'Other' ? form.OtherColor?.value || '' : form.CarColor?.value || ''}" disabled>
               </div>
         </div>
-        <div class="col-lg-4 col-6  mb-3">
+        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
           <div class="label">Drop Location</div>
             <div class="value">
               <input type="text" class="form-control" id="cf_store" value="${form.Store?.value === 'Other' ? form.OtherStore?.value || '' : form.Store?.value || ''}" disabled>
               </div>
         </div>
-        <div class="col-lg-4 col-6  mb-3">
+        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
           <div class="label"> Delivery Date & Time</div>
             <div class="value">
               <input type="text" class="form-control" id="cf_time" value="${(form.dateInput?.value || "") + ' ' + (form.timeInput?.value || "")}" disabled>
               </div>
         </div>
-         <div class="col-lg-4 col-6  mb-3">
+         <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
           <div class="label">Service Type</div>
             <div class="value">
               <input type="text" class="form-control" id="cf_services" value="${selectedServices}" disabled>
               </div>
         </div>
-        <div class="col-lg-4 col-6  mb-3">
+        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
   <div class="label">Source of Sale</div>
   <div class="value">
     <input type="text" class="form-control" id="cf_source" 
@@ -296,7 +296,7 @@ value="${form.SaleSource?.value === 'MarketingPerson' ? (form.MarketingPersonNam
   </div>
 </div>
 
-<div class="col-lg-4 col-6  mb-3">
+<div class="col-lg-4 col-6  mb-md-3 mb-1 ">
   <div class="label">Payment Mode</div>
   <div class="value">
     <input type="text" class="form-control" id="cf_payment" 
@@ -305,11 +305,19 @@ value="${form.SaleSource?.value === 'MarketingPerson' ? (form.MarketingPersonNam
   </div>
 </div>
 
-<div class="col-lg-4 col-6  mb-3">
+<div class="col-lg-4 col-6  mb-md-3 mb-1 ">
   <div class="label">Total Amount</div>
   <div class="value">
     <input type="text" class="form-control" id="cf_total" 
 value="${form.Total_Amount?.value || ''}" 
+      disabled>
+  </div>
+</div>
+<div class=" col-12  mb-md-3 mb-1 ">
+  <div class="label">Comment</div>
+  <div class="value">
+    <input type="text" class="form-control" id="cf_total" 
+      value="${form.comment?.value  || ''}" 
       disabled>
   </div>
 </div>
@@ -361,12 +369,13 @@ $(document).on("click", "#confirmSubmit", function () {
     timeInput: $("#cf_time").val(),
   sourceOfSale: $("#cf_source").val(),   // ✅ new
   paymentMode: $("#cf_payment").val(),   // ✅ new
-  totalAmount: $("#cf_total").val(),     // ✅ new
+  totalAmount: $("#cf_total").val(), 
+    comment: $("#comment").val() || "" ,
     Reg_No: refNo,
   };
 
   // ✅ Save to Google Sheet
-  fetch("https://script.google.com/macros/s/AKfycbyG4B4-6-xMVpKA8FEm1a5RFKmEkfeOXdXKQNAwzK1iavqXHsx9S6tbgNUDO1B1qXtk/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbyGdZHPs5vwXddUPAi7MKygBELrmyFERpME_nujFhhGk1XD5Xu8lmw9_rSJZMV6wsI/exec", {
     method: "POST",
     body: JSON.stringify(data)
   })
@@ -641,7 +650,7 @@ font-size: 8px;
           modal.hide();
 
           setTimeout(() => document.activeElement?.blur(), 10);
-        }, 100);
+        }, 500);
       });
     })
     .catch(err => {
@@ -788,6 +797,17 @@ flatpickr("#serviceTime", {
           "Venue N-Line",
           "Xcent",
         ],
+   Jaguar: [
+    "XE",
+    "XF",
+    "XJ",
+    "F-Type",
+    "E-Pace",
+    "F-Pace",
+    "I-Pace",
+    "XK"
+  ],
+
         Jeep: ["Compass", "Meridian", "Wrangler"],
         Kia: ["Carens", "Carnival", "Seltos", "Sonet"],
         "Land Rover": [
@@ -797,6 +817,37 @@ flatpickr("#serviceTime", {
           "Discovery Sport",
           "Range Rover Evoque",
         ],
+          "Land Rover": [
+    "Range Rover",
+    "Range Rover Sport",
+    "Range Rover Velar",
+    "Range Rover Evoque",
+    "Discovery",
+    "Discovery Sport",
+    "Defender"
+  ],
+        Lexus: [
+  "LBX",
+  "UX",
+  "UX 300e",
+  "NX",
+  "RX",
+  "RZ",
+  "TX",
+  "GX",
+  "LX",
+  "LM",
+  "ES",
+  "LS",
+  "LC",
+  "RC",
+  "IS",
+  "CT",
+  "GS",
+  "HS",
+  "LFA",
+  "SC"
+],
         Mahindra: [
           "Alturas G4",
           "Armada",
@@ -880,6 +931,38 @@ flatpickr("#serviceTime", {
           "S-Coupe",
           "SL",
         ],
+    Mercedes: [
+    "A-Class",
+    "C-Class",
+    "CLA",
+    "CLS",
+    "E-Class",
+    "GLA",
+    "GLB",
+    "GLC",
+    "GLE",
+    "GLS",
+    "S-Class",
+    "G-Class",
+    "Maybach S-Class",
+    "EQC",
+    "EQE",
+    "EQS",
+    "EQB",
+    "EQS SUV",
+    "AMG GT",
+    "SL",
+    "SLC / SLK"
+  ],
+  "Mini Cooper": [
+    "Mini 2-Door Hatch",
+    "Mini 4-Door Hatch",
+    "Mini Convertible",
+    "Mini Clubman",
+    "Mini Countryman",
+    "Mini Electric / SE",
+    "Mini John Cooper Works (JCW) versions"
+  ],
         Nissan: [
           "350Z",
           "370Z",
@@ -893,6 +976,17 @@ flatpickr("#serviceTime", {
           "Terrano",
           "X-Trail",
         ],
+    Porsche: [
+    "911",
+    "718 Cayman",
+    "718 Boxster",
+    "Taycan",
+    "Cayenne",
+    "Macan",
+    "Panamera",
+    "718 Spyder",
+    "918 Spyder"
+  ],
         Renault: [
           "Captur",
           "Duster",
@@ -1011,6 +1105,22 @@ flatpickr("#serviceTime", {
           "Virtus",
           "Vento",
         ],
+Volvo: [
+    "XC40",
+    "XC60",
+    "XC90",
+    "S90",
+    "S60",
+    "V90",
+    "V60",
+    "EX30",
+    "EX40",
+    "EX90",
+    "C40",
+    "V60 Cross Country"
+  ],
+
+        
       };
       const brandSelect = document.getElementById("Brand");
       const modelSelect = document.getElementById("Model");
@@ -1198,11 +1308,6 @@ toggleInput("CarColor", {
   Other: "OtherColor",
 });
 
-// Payment Mode → Other
-toggleInput("PaymentMode", {
-  Other: "OtherPayment",
-});
-
 // Sale Source → MarketingPerson 
 toggleInput("SaleSource", {
   MarketingPerson: "MarketingPersonName",
@@ -1217,4 +1322,4 @@ toggleInput("SaleSource", {
 
 
 
-        // "function doPost(e) { var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1"); // apna sheet name var data = JSON.parse(e.postData.contents); sheet.appendRow([ new Date(), data.Reg_No, data.fullName, data.phoneNumber, data.Brand, data.Model, data.car_color, data.Car_Number, data.service, data.Store, data.State, data.dateInput, data.timeInput ]); return ContentService.createTextOutput(JSON.stringify({ status: "success" })) .setMimeType(ContentService.MimeType.JSON); } function sendDailySummary() { var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1"); var data = sheet.getDataRange().getValues(); var today = new Date(); var todayStr = Utilities.formatDate(today, "Asia/Kolkata", "yyyy-MM-dd"); var message = "<h2>📌 Daily Report (" + todayStr + ")</h2>"; message += "<table border='1' cellspacing='0' cellpadding='5' style='border-collapse:collapse; font-family:Arial; font-size:14px;'>"; message += "<tr>"; data[0].forEach(h => message += "<th style='background:#f4f4f4;'>" + h + "</th>"); message += "</tr>"; var count = 0; for (var i = 1; i < data.length; i++) { var rowDate = Utilities.formatDate(new Date(data[i][0]), "Asia/Kolkata", "yyyy-MM-dd"); if (rowDate === todayStr) { count++; message += "<tr>"; data[i].forEach(val => message += "<td>" + (val || "") + "</td>"); message += "</tr>"; } } message += "</table>"; message += <p><b>Total Entries Today:</b> ${count}</p>; MailApp.sendEmail({ to: "yourmail@gmail.com", subject: "Daily Report - " + todayStr, htmlBody: message }); } "
+// "function doPost(e) { var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1"); // apna sheet name var data = JSON.parse(e.postData.contents); sheet.appendRow([ new Date(), data.Reg_No, data.fullName, data.phoneNumber, data.Brand, data.Model, data.car_color, data.Car_Number, data.service, data.Store, data.State, data.dateInput, data.timeInput ]); return ContentService.createTextOutput(JSON.stringify({ status: "success" })) .setMimeType(ContentService.MimeType.JSON); } function sendDailySummary() { var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1"); var data = sheet.getDataRange().getValues(); var today = new Date(); var todayStr = Utilities.formatDate(today, "Asia/Kolkata", "yyyy-MM-dd"); var message = "<h2>📌 Daily Report (" + todayStr + ")</h2>"; message += "<table border='1' cellspacing='0' cellpadding='5' style='border-collapse:collapse; font-family:Arial; font-size:14px;'>"; message += "<tr>"; data[0].forEach(h => message += "<th style='background:#f4f4f4;'>" + h + "</th>"); message += "</tr>"; var count = 0; for (var i = 1; i < data.length; i++) { var rowDate = Utilities.formatDate(new Date(data[i][0]), "Asia/Kolkata", "yyyy-MM-dd"); if (rowDate === todayStr) { count++; message += "<tr>"; data[i].forEach(val => message += "<td>" + (val || "") + "</td>"); message += "</tr>"; } } message += "</table>"; message += <p><b>Total Entries Today:</b> ${count}</p>; MailApp.sendEmail({ to: "yourmail@gmail.com", subject: "Daily Report - " + todayStr, htmlBody: message }); }"
