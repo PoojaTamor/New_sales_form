@@ -26,17 +26,17 @@
     <div id="mainContent">
     <div class="container-fluid bookingcontainer p-0"  >
       <div class="form-header d-flex justify-content-between align-items-center">
-        <h1><span class="d-block">Booking</span> Print Receipt</h1>
+        <h1> <span class="d-block"> Booking </span> Print Receipt</h1>
         <div class="logolight-img" >
           <img src="./light-logo.png" alt=""  >
         </div>
     </div>
       <!-- Form Box -->
-    <div class="container px-sm-5 p-0">
-        <div class="form-box">
-          <form id="msform" name="msform">
-            <!-- Step 1 -->
-            <div class="form-step active form-one-block">
+<div class="container px-sm-5 p-0">
+  <div class="form-box">
+      <form id="msform" name="msform">
+     <!-- Step 1 -->
+    <div class="form-step active form-one-block">
               <div class="form-top-part">
                 <h3>Vehicle Details</h3>
                 <p>Please select the vehicle brand of the customer</p>
@@ -48,27 +48,32 @@
                       class="form-select"
                       required >
                       <option value="" disabled selected>Select Brand</option>
-                      <option value="Audi">Audi</option>
-                      <option value="BMW">BMW</option>
-                      <option value="Chevrolet">Chevrolet</option>
-                      <option value="Citroen">Citroen</option>
-                      <option value="Datsun">Datsun</option>
-                      <option value="Ford">Ford</option>
-                      <option value="Hyundai">Hyundai</option>
-                      <option value="Honda">Honda</option>
-                      <option value="Jeep">Jeep</option>
-                      <option value="Kia">Kia</option>
-                      <option value="Land Rover">Land Rover</option>
-                      <option value="Mahindra">Mahindra</option>
-                      <option value="Maruti Suzuki">Maruti Suzuki</option>
-                      <option value="Mercedes-Benz">Mercedes-Benz</option>
-                      <option value="MG Motors">MG Motors</option>
-                      <option value="Nissan">Nissan</option>
-                      <option value="Renault">Renault</option>
-                      <option value="Skoda">Skoda</option>
-                      <option value="Tata">Tata</option>
-                      <option value="Toyota">Toyota</option>
-                      <option value="Volkswagen">Volkswagen</option>
+                     <option value="Audi">Audi</option>
+  <option value="BMW">BMW</option>
+  <option value="Chevrolet">Chevrolet</option>
+  <option value="Citroen">Citroen</option>
+  <option value="Datsun">Datsun</option>
+  <option value="Ford">Ford</option>
+  <option value="Hyundai">Hyundai</option>
+  <option value="Honda">Honda</option>
+  <option value="Jaguar">Jaguar</option> <!-- ✅ Added -->
+  <option value="Jeep">Jeep</option>
+  <option value="Kia">Kia</option>
+  <option value="Land Rover">Land Rover</option>
+  <option value="Lexus">Lexus</option> <!-- ✅ Added -->
+  <option value="Mahindra">Mahindra</option>
+  <option value="Maruti Suzuki">Maruti Suzuki</option>
+  <option value="Mercedes-Benz">Mercedes-Benz</option>
+  <option value="Mini Cooper">Mini Cooper</option> <!-- ✅ Added -->
+  <option value="MG Motors">MG Motors</option>
+  <option value="Nissan">Nissan</option>
+  <option value="Porsche">Porsche</option> <!-- ✅ Added -->
+  <option value="Renault">Renault</option>
+  <option value="Skoda">Skoda</option>
+  <option value="Tata">Tata</option>
+  <option value="Toyota">Toyota</option>
+  <option value="Volkswagen">Volkswagen</option>
+  <option value="Volvo">Volvo</option> <!-- ✅ Added -->
                     </select>
                   </div>
                   <div class="col-lg-5">
@@ -93,9 +98,9 @@
               <div class="text-end mt-4 form-bottom-part text-center">
                 <button type="button" class="btn-next fullback ">Next</button>
               </div>
-            </div>
-            <!-- Step 2 -->
-             <div class="form-step ">
+    </div>
+    <!-- Step 2 -->
+    <div class="form-step ">
              <div class="form-top-part">
              <div class="d-lg-none d-block ">
                       <h3 class="colorheading">Vehicle Color</h3>
@@ -156,9 +161,9 @@
                 </button>
               </div>
           
-            </div> 
-            <!-- Step 3 -->
-             <div class="form-step">
+    </div> 
+     <!-- Step 3 -->
+     <div class="form-step">
 
                <div class="form-top-part">
              <div class="d-lg-none d-block ">
@@ -179,20 +184,27 @@
     <button class=" multylist dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" id="multiSelectBtn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
       Select Services
     </button>
-    <ul class="dropdown-menu w-100" aria-labelledby="multiSelectBtn" id="serviceList">
-<li><a class="dropdown-item" href="#" data-value="Car Wash">Car Wash</a></li>
-<li><a class="dropdown-item" href="#" data-value="Ceramic Coating">Ceramic Coating</a></li>
-<li><a class="dropdown-item" href="#" data-value="Denting & Painting">Denting & Painting</a></li>
-<li><a class="dropdown-item" href="#" data-value="Detailing Services">Detailing Services</a></li>
-<li><a class="dropdown-item" href="#" data-value="Graphene Coating">Graphene Coating</a></li>
-<li><a class="dropdown-item" href="#" data-value="High Gloss Treatment">High Gloss Treatment</a></li>
-<li><a class="dropdown-item" href="#" data-value="Hydrodipp">Hydrodipp</a></li>
-<li><a class="dropdown-item" href="#" data-value="Interior Cleaning">Interior Cleaning</a></li>
-<li><a class="dropdown-item" href="#" data-value="PPF">PPF</a></li>
-<li><a class="dropdown-item" href="#" data-value="Sunroof PPF (UV Protected)">Sunroof PPF (UV Protected)</a></li>
-<li><a class="dropdown-item" href="#" data-value="Window Film">Window Film</a></li>
-      <li><a class="dropdown-item other-option" href="#" data-value="Other">Other</a></li>
-    </ul>
+   <ul class="dropdown-menu w-100" aria-labelledby="multiSelectBtn" id="serviceList">
+  <li><a class="dropdown-item" href="#" data-value="Buffing">Buffing</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Washing">Washing</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Ceramic Coating">Ceramic Coating</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Correction">Correction</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Denting & Painting">Denting & Painting</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Detailing Services">Detailing Services</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Drycleaning">Drycleaning</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Graphene Coating">Graphene Coating</a></li>
+  <li><a class="dropdown-item" href="#" data-value="High Gloss Treatment">High Gloss Treatment</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Hydrodipp">Hydrodipp</a></li>
+  <li><a class="dropdown-item" href="#" data-value="In+Out Wash">In+Out Wash</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Interior Cleaning">Interior Cleaning</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Polishing">Polishing</a></li>
+  <li><a class="dropdown-item" href="#" data-value="PPF">PPF</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Rubbing">Rubbing</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Sunroof PPF (UV Protected)">Sunroof PPF (UV Protected)</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Window Film">Window Film</a></li>
+  <li><a class="dropdown-item other-option" href="#" data-value="Other">Other</a></li>
+</ul>
+
   </div>
 
     <div id="selectedTags" class="mt-3"></div>
@@ -208,9 +220,9 @@
                   Next
                 </button>
               </div>
-            </div> 
-            <!-- Step 4-->
-            <div class="form-step ">
+     </div> 
+     <!-- Step 4-->
+    <div class="form-step ">
               <div class="form-top-part">
                 <h3>Select City</h3>
                 <p>Mention the place of service</p>
@@ -249,9 +261,9 @@
                   Next
                 </button>
               </div>
-            </div> 
-                        <!-- Step 5-->
-            <div class="form-step ">
+    </div> 
+     <!-- Step 5-->
+    <div class="form-step ">
               <div class="form-top-part">
            <h3> Vehicle Number</h3>
     <p>Provide the registration number of your Vehicle <span class="d-lg-block">
@@ -277,9 +289,9 @@
                   Next
                 </button>
               </div>
-            </div>
-           <!-- Step 6-->
-            <div class="form-step ">
+    </div>
+     <!-- Step 6-->
+    <div class="form-step ">
               <div class="form-top-part">
                 <h3>Delivery Date</h3>
                 <p>Select the exact Delivery Date and Time when you will be <span class="d-lg-block">handing over the Vehicle to the customer</span></p>
@@ -302,9 +314,9 @@
                   Next
                 </button>
               </div>
-            </div>
-              <!-- Step 7-->
-            <div class="form-step">
+    </div>
+    <!-- Step 7-->
+    <div class="form-step">
               <div class="form-top-part">
            <h3>Personal Details</h3>
     <p>Please fill out the details of the customer</p>
@@ -326,6 +338,13 @@
                       name="lname"
                     />
                   </div>
+                   <!-- <input
+                      type="text"
+                      class="form-control custom-input "
+                      placeholder="Total Amount "
+                      name="Total_Amount"
+                      required
+                    /> -->
 
                 </div>
               </div>
@@ -337,11 +356,9 @@
                   Next
                 </button>
               </div>
-            </div>
-
-  <!-- Step 8-->
-            
-            <div class="form-step">
+    </div>
+  <!-- Step 8-->      
+    <div class="form-step">
               <div class="form-top-part">
            <h3> Contact Number</h3>
     <p>Enter the customer’s phone number for records and <span class="d-lg-block">follow-up (Preferred whatsapp number)</span></p>
@@ -365,9 +382,9 @@
                   Next
                 </button>
               </div>
-            </div>
+    </div>
   <!-- Step 9-->
-            <div class="form-step ">
+    <div class="form-step ">
              <div class="form-top-part">
              <div class="d-lg-none d-block ">
                       <h3 class="colorheading">Source of Sale</h3>
@@ -413,15 +430,14 @@
                 </button>
               </div>
           
-            </div> 
+    </div> 
   <!-- Step 10-->
-          
-            <div class="form-step">
+              <div class="form-step">
    <div class="form-top-part">
            <h3>Payment Details</h3>
     <p>Please select the payment mode and enter the total amount</p>
                 <div class="row   gy-4 justify-content-between">
-  <div class="col-md-5">
+  <div class="col-lg-5">
  <div class=" ">
     <select
       id="PaymentMode"
@@ -430,44 +446,68 @@
       required
     >
       <option value="" disabled selected>Payment Mode</option>
+       
       <option value="UPI">UPI</option>
       <option value="Cash">Cash</option>
       <option value="Card">Card</option>
+       <option value="Null">NULL</option>
       <option value="Pending">Pending</option>
-      <option value="Other">Other</option>
+      <option value="UPI+Cash">UPI + Cash</option>
+      <option value="Card+Cash">Card + Cash</option>
     </select>
-    <input
-      type="text"
-      id="OtherPayment"
-      name="OtherPayment"
-      class="form-control mt-lg-2 mt-3 custom-input"
-      placeholder="Specify your payment method"
-      style="display: none"
-    />
-                  </div>
+
+    </div>
   </div>
-                   <div class="col-md-5">
-                    <input
+        <div class="col-lg-5">
+   <input
+          type="text"
+          id="comment"
+          name="comment"
+          class="form-control mt-lg-2 mt-3 custom-input"
+          placeholder="Add Comment"
+        />
+                  </div>
+
+                </div>
+              </div>
+              <div class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn-prev">
+               Back
+                </button>
+                <button type="button" class=" btn-next">
+                  Next
+                </button>
+              </div>
+    </div>
+   <div class="form-step">
+  <div class="form-top-part">
+    <h3>Total Amount</h3>
+    <p>
+      Enter the total amount to be paid by the customer</span>
+    </p>
+    <div class="row">
+      <div class="col-lg-6">
+       <input
                       type="text"
                       class="form-control custom-input "
                       placeholder="Total Amount "
                       name="Total_Amount"
                       required
                     />
-                  </div>
+      </div>
+    </div>
+  </div>
 
-                </div>
-              </div>
                   <div class="d-flex justify-content-between mt-4">
                 <button type="button" class=" btn-prev">
                   Back
                 </button>
                 <button type="submit" class=" submi-btn btn-next">Done</button>
               </div>
-            </div>
-          </form>
-        </div>
-      </div>
+    </div>
+      </form>
+  </div>
+</div>
     </div>
     </div>
 
@@ -485,6 +525,8 @@
   </div>
 </div>
 
+
+-------------------------------------------------------------nord---------------------------------------------------------
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -522,3 +564,89 @@
   </body>
 </html>
 
+
+
+
+<!-- "script"=========================== -->
+
+
+
+
+
+<!-- function doPost(e) {
+  var data = JSON.parse(e.postData.contents);
+
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var storeName = data.Store;
+
+  var sheet;
+  if (storeName === "Ambience Mall") {
+    sheet = ss.getSheetByName("Ambience Mall");
+  } else if (storeName === "Pacific Mall ,Subhash Nagar") {
+    sheet = ss.getSheetByName("Pacific Mall");
+  } else if (storeName === "Promenade Mall") {
+    sheet = ss.getSheetByName("Promenade Mall");
+  } else {
+    sheet = ss.getSheetByName("Others");
+  }
+
+  // ✅ Convert all values to UPPERCASE before saving
+  var regNo = data.Reg_No ? data.Reg_No.toString().toUpperCase() : "";
+  var fullName = data.fullName ? data.fullName.toString().toUpperCase() : "";
+  var phoneNumber = data.phoneNumber ? data.phoneNumber.toString().toUpperCase() : "";
+  var brand = data.Brand ? data.Brand.toString().toUpperCase() : "";
+  var model = data.Model ? data.Model.toString().toUpperCase() : "";
+  var carColor = data.car_color ? data.car_color.toString().toUpperCase() : "";
+  var carNumber = data.Car_Number ? data.Car_Number.toString().toUpperCase() : "";
+  var service = data.service ? data.service.toString().toUpperCase() : "";
+  var store = data.Store ? data.Store.toString().toUpperCase() : "";
+  var timeInput = data.timeInput ? data.timeInput.toString().toUpperCase() : "";
+  var sourceOfSale = data.sourceOfSale ? data.sourceOfSale.toString().toUpperCase() : "";
+  var paymentMode = data.paymentMode ? data.paymentMode.toString().toUpperCase() : "";
+  var totalAmount = data.totalAmount ? data.totalAmount.toString().toUpperCase() : "";
+
+  // ✅ Save in Sheet (all CAPS)
+  sheet.appendRow([
+    new Date(),
+    regNo,
+    fullName,
+    phoneNumber,
+    brand,
+    model,
+    carColor,
+    carNumber,
+    service,
+    store,
+    timeInput,
+    sourceOfSale,
+    paymentMode,
+    totalAmount
+  ]);
+
+  // ✅ Email in UPPERCASE format
+  var subject = "Sales Data From " + store;
+  var body =
+    "<h2 style='color:#2c3e50;'> SALES DATA OF – " + fullName + "</h2>" +
+    "<table border='1' cellspacing='0' cellpadding='8' style='border-collapse:collapse;width:100%;font-family:Arial, sans-serif;font-size:14px;'>" +
+    "<tr><th align='left'>REG NO</th><td>" + regNo + "</td></tr>" +
+    "<tr><th align='left'>NAME</th><td>" + fullName + "</td></tr>" +
+    "<tr><th align='left'>PHONE</th><td>" + phoneNumber + "</td></tr>" +
+    "<tr><th align='left'>BRAND</th><td>" + brand + "</td></tr>" +
+    "<tr><th align='left'>MODEL</th><td>" + model + "</td></tr>" +
+    "<tr><th align='left'>VEHICLE COLOR</th><td>" + carColor + "</td></tr>" +
+    "<tr><th align='left'>VEHICLE NO</th><td>" + carNumber + "</td></tr>" +
+    "<tr><th align='left'>SERVICE</th><td>" + service + "</td></tr>" +
+    "<tr><th align='left'>STORE</th><td>" + store + "</td></tr>" +
+    "<tr><th align='left'>TIME</th><td>" + timeInput + "</td></tr>" +
+    "<tr><th align='left'>SOURCE OF SALE</th><td>" + sourceOfSale + "</td></tr>" +
+    "<tr><th align='left'>PAYMENT MODE</th><td>" + paymentMode + "</td></tr>" +
+    "<tr><th align='left'>TOTAL AMOUNT</th><td>" + totalAmount + "</td></tr>" +
+    "</table>" +
+    "<br><p>REGARDS,<br><b>" + store + "</b></p>";
+
+  GmailApp.sendEmail("dbstoredata@gmail.com", subject, "", { htmlBody: body });
+
+  return ContentService.createTextOutput(
+    JSON.stringify({ result: "SUCCESS", store: store })
+  ).setMimeType(ContentService.MimeType.JSON);
+} -->
