@@ -454,11 +454,11 @@ bottom: -30px !important;
     margin-top: 0px;
 }
 
-.modal-header {
-    padding: 3rem 2rem 2rem 4rem;
+     .modal-header {
+    padding: 2rem 1rem 1rem 3rem;
 }
 .modal-body {
-    padding: 2rem 2rem;
+    padding: 1rem 2rem;
 }
 .modal-body .label {
     font-size: 1rem;
@@ -567,8 +567,11 @@ height: 40px;
     font-size: 0.9rem;
 }
 
-    .modal-header {
-    padding: 2rem 1rem 2rem 2rem;
+   .modal-header {
+    padding: 1rem 1rem 1rem 2rem;
+}
+.modal-body {
+    padding:1rem; 
 }
 .modal-header h3 {
     font-size: 1rem;
@@ -578,11 +581,9 @@ height: 40px;
     font-size: 0.8rem;
     line-height: 6px;
 }
-.modal-body {
-    padding: 2rem 1rem;
-}
+
 .modal-body .label {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     padding-bottom: 0px;
     margin-left: 10px;
 }
@@ -590,13 +591,14 @@ height: 40px;
     font-size: 0.8rem;
 }
 .modal-footer {
-    padding: 0rem 0rem 2rem 0rem;
+    padding: 0rem 0rem 1rem 0rem;
 }
 .editbtn {
     padding: 10px 30px;
     border-radius: 7px;
-    font-size: 1rem;
+    font-size: 0.8rem;
 }
+
 .conformbtn {
     border: none;
     background-color: #000;
@@ -604,8 +606,9 @@ height: 40px;
     border-radius: 7px;
     font-weight: 700;
     color: #EBEBEB;
-    font-size: 1rem;
+    font-size: 0.8rem;
 }
+
 
 .fullback{
   width: 100%;
@@ -629,3 +632,6 @@ height: 40px;
         height: 120px;
     }
    } 
+
+
+
