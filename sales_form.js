@@ -636,6 +636,7 @@ font-size: 8px;
             $(this).html(value);
           });
 
+
           $(".form-step").hide().first().show();
           current = 1;
 
@@ -650,6 +651,7 @@ font-size: 8px;
           modal.hide();
 
           setTimeout(() => document.activeElement?.blur(), 10);
+          window.location.reload();
         }, 500);
       });
     })
@@ -684,6 +686,8 @@ flatpickr("#serviceTime", {
 });
 
 // ==================================================brand-and model==================================
+
+// ==================================================brand-and model==================================
       const modelData = {
         Audi: [
           "A3",
@@ -702,6 +706,15 @@ flatpickr("#serviceTime", {
           "S5 Sportback",
           "TT",
         ],
+         Bajaj: [
+    "Pulsar 150",
+    "Pulsar NS200",
+    "Pulsar RS200",
+    "Dominar 400",
+    "Avenger Cruise 220",
+    "CT 100",
+    "Platina 110",
+  ],
         BMW: [
           "2 Series Gran Coupe",
           "3 Series",
@@ -743,6 +756,7 @@ flatpickr("#serviceTime", {
         ],
         Citroen: ["Basalt", "C3", "C3 AIRCROSS", "C5 Aircross"],
         Datsun: ["GO", "Go Puls"],
+         Ducati: ["Panigale V4", "Monster", "Diavel 1260", "Scrambler Icon", "Multistrada V4"],
         Ford: [
           "Classic",
           "Escort",
@@ -754,6 +768,8 @@ flatpickr("#serviceTime", {
           "Mondeo",
           "Mustang",
         ],
+      "Harley-Davidson": ["Iron 883", "Street 750", "Forty-Eight", "Fat Boy", "Road Glide"],
+  Hero: ["Splendor Plus", "HF Deluxe", "Passion Pro", "Glamour", "Xtreme 160R"],
         Honda: [
           "Accord",
           "Amaze",
@@ -797,18 +813,18 @@ flatpickr("#serviceTime", {
           "Venue N-Line",
           "Xcent",
         ],
-   Jaguar: [
-    "XE",
-    "XF",
-    "XJ",
-    "F-Type",
-    "E-Pace",
-    "F-Pace",
-    "I-Pace",
-    "XK"
+          Jaguar: [
+    "F-Pace",   
+    "E-Pace",    
+    "I-Pace",     
+    "XE",         
+    "XF",        
+    "XJ",         
   ],
-
+   Jawa: ["Jawa 42", "Jawa Perak", "Jawa Standard"],
         Jeep: ["Compass", "Meridian", "Wrangler"],
+          Kawasaki: ["Ninja 300", "Ninja ZX-10R", "Z900", "Versys 650"],
+
         Kia: ["Carens", "Carnival", "Seltos", "Sonet"],
         "Land Rover": [
           "Discovery",
@@ -817,37 +833,23 @@ flatpickr("#serviceTime", {
           "Discovery Sport",
           "Range Rover Evoque",
         ],
-          "Land Rover": [
-    "Range Rover",
-    "Range Rover Sport",
-    "Range Rover Velar",
-    "Range Rover Evoque",
-    "Discovery",
-    "Discovery Sport",
-    "Defender"
+         KTM: ["Duke 200", "Duke 390", "RC 200", "RC 390", "Adventure 250", "Adventure 390"],
+  "Land Rover": ["Discovery", "Discovery 3", "Discovery 4", "Discovery Sport", "Range Rover Evoque"],
+         Lexus: [
+    "NX",    
+    "RX",    
+    "LX",     
+    "ES",     
+    "LS",    
+    "LC 500h",
+    "LM", 
   ],
-        Lexus: [
-  "LBX",
-  "UX",
-  "UX 300e",
-  "NX",
-  "RX",
-  "RZ",
-  "TX",
-  "GX",
-  "LX",
-  "LM",
-  "ES",
-  "LS",
-  "LC",
-  "RC",
-  "IS",
-  "CT",
-  "GS",
-  "HS",
-  "LFA",
-  "SC"
-],
+  "Mini Cooper": [
+    "Cooper",          
+    "Countryman",     
+    "Cooper SE",       
+    "Countryman Electric", 
+  ],
         Mahindra: [
           "Alturas G4",
           "Armada",
@@ -931,38 +933,6 @@ flatpickr("#serviceTime", {
           "S-Coupe",
           "SL",
         ],
-    Mercedes: [
-    "A-Class",
-    "C-Class",
-    "CLA",
-    "CLS",
-    "E-Class",
-    "GLA",
-    "GLB",
-    "GLC",
-    "GLE",
-    "GLS",
-    "S-Class",
-    "G-Class",
-    "Maybach S-Class",
-    "EQC",
-    "EQE",
-    "EQS",
-    "EQB",
-    "EQS SUV",
-    "AMG GT",
-    "SL",
-    "SLC / SLK"
-  ],
-  "Mini Cooper": [
-    "Mini 2-Door Hatch",
-    "Mini 4-Door Hatch",
-    "Mini Convertible",
-    "Mini Clubman",
-    "Mini Countryman",
-    "Mini Electric / SE",
-    "Mini John Cooper Works (JCW) versions"
-  ],
         Nissan: [
           "350Z",
           "370Z",
@@ -976,16 +946,14 @@ flatpickr("#serviceTime", {
           "Terrano",
           "X-Trail",
         ],
-    Porsche: [
-    "911",
-    "718 Cayman",
-    "718 Boxster",
-    "Taycan",
-    "Cayenne",
-    "Macan",
-    "Panamera",
-    "718 Spyder",
-    "918 Spyder"
+         Porsche: [
+    "Macan",       
+    "Cayenne",      
+    "911",          
+    "Panamera",    
+    "Taycan",       
+    "718",          
+    "Cayenne Coupe",
   ],
         Renault: [
           "Captur",
@@ -1000,6 +968,7 @@ flatpickr("#serviceTime", {
           "Scala",
           "Triber",
         ],
+         "Royal Enfield": ["Classic 350", "Bullet 350", "Meteor 350", "Hunter 350", "Interceptor 650", "Continental GT 650"],
         Skoda: [
           "Fabia",
           "Fabia Scout",
@@ -1088,6 +1057,8 @@ flatpickr("#serviceTime", {
           "Urban Cruiser Taisor",
           "Yaris",
         ],
+         Triumph: ["Bonneville T100", "Bonneville T120", "Street Twin", "Speed Triple 1200 RS", "Tiger 900"],
+  TVS: ["Apache RTR 160", "Apache RTR 200", "Apache RR 310", "Jupiter", "Ntorq 125"],
         Volkswagen: [
           "1600",
           "Ameo",
@@ -1105,22 +1076,17 @@ flatpickr("#serviceTime", {
           "Virtus",
           "Vento",
         ],
-Volvo: [
-    "XC40",
-    "XC60",
-    "XC90",
-    "S90",
-    "S60",
-    "V90",
-    "V60",
-    "EX30",
-    "EX40",
-    "EX90",
-    "C40",
-    "V60 Cross Country"
+         Volvo: [
+    "XC90",       
+    "XC60",        
+    "XC40 Recharge",
+    "C40 Recharge", 
+    "EX40",       
+    "EC40",       
+    "EX30",        
+    "S90",       
   ],
-
-        
+  Yamaha: ["R15 V4", "MT-15", "FZ-S V3", "Fascino 125", "Aerox 155"],
       };
       const brandSelect = document.getElementById("Brand");
       const modelSelect = document.getElementById("Model");
@@ -1165,6 +1131,20 @@ Volvo: [
            otherModelInput.required = false;
         }
       });
+// Model change
+modelSelect.addEventListener("change", function () {
+  if (modelSelect.value === "Other") {
+    otherModelContainer.style.display = "block";
+    otherModelInput.required = true;
+    otherModelInput.focus();
+  } else {
+    otherModelContainer.style.display = "none";
+    otherModelInput.value = "";
+    otherModelInput.required = false;
+  }
+});
+
+
 // ========================================== state and store===================================================
 const storeData = {
   "Delhi NCR":["Ambience Mall", "Janakpuri", "Pacific Mall ,Subhash Nagar", "Promenade Mall"],
@@ -1233,7 +1213,7 @@ storeSelect.addEventListener("change", function () {
     otherStoreInput.required = false; // Remove required when hidden
   }
 });
-// ================================colorchange , payment ,source====================================
+// // ================================colorchange , payment ,source====================================
 // document.getElementById("CarColor") .addEventListener("change", function () {
 //           let otherInput = document.getElementById("OtherColor");
 //           if (this.value === "Other") {
@@ -1247,22 +1227,10 @@ storeSelect.addEventListener("change", function () {
 //         });
 
 
-// // ======================================payment-mode=========================================
 
 
-// document.getElementById("PaymentMode").addEventListener("change", function () {
-//   let otherPayment = document.getElementById("OtherPayment");
-//   if (this.value === "Other") {
-//     otherPayment.style.display = "block";
-//     otherPayment.required = true; // Make it required when visible
-//   } else {
-//     otherPayment.style.display = "none";
-//     otherPayment.required = false;
-//   }
-// });
 
-
-// // ==========================================source=====
+// // // ==========================================source=====
 
 
 // document.getElementById("SaleSource").addEventListener("change", function () {
