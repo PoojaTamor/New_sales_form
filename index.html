@@ -1,1293 +1,666 @@
-//   this is the function of all form next , validation submit and conform
-
-$(document).ready(function () {
-  let current = 1;
-  const selectedServices = [];
-  let refNo;
-
-  // 👉 Next button
-// 👉 Next button
-$(".btn-next").click(function () {
-  const current_fs = $(this).closest(".form-step");
-  const next_fs = current_fs.next(".form-step");
-  let isValid = true;
-
-  // Validate required fields
-  current_fs.find("input[required], select[required]").each(function () {
-    if (!$(this).val()) {
-      $(this).addClass("is-invalid");
-      isValid = false;
-    } else {
-      $(this).removeClass("is-invalid");
-    }
-  });
-
-  // 👉 Car Number validation
-  const carNoInput = current_fs.find("input[name='Car_Number']").val();
-  const carRegex = /^[A-Za-z0-9]+$/;
-  if (carNoInput) {
-    if (carNoInput.length < 6 || !carRegex.test(carNoInput)) {
-      Swal.fire({
-        icon: "error",
-        title: "Invalid Vehicle Number",
-        text: "Please enter the full vehicle number",
-      });
-      return false;
-    }
-  }
-
-  // 👉 Phone Number validation
-  const phoneInput = current_fs.find("#phoneNumber").val();
-  const phoneRegex = /^[0-9]{10}$/; // Sirf 10 digits
-  if (phoneInput) {
-    if (!phoneRegex.test(phoneInput)) {
-      Swal.fire({
-        icon: "error",
-        title: "Invalid Phone Number",
-        text: "Please enter a valid 10-digit phone number",
-      });
-      return false;
-    }
-  }
-
-  if (!isValid) {
-    Swal.fire({
-      icon: "error",
-      title: "Missing Fields",
-      text: "Please fill all required fields before continuing.",
-    });
-    return false;
-  }
-
-  // ✅ Valid hone par next step
-  current_fs.hide();
-  next_fs.show();
-  current++;
-});
-
-
-  // 👉 Previous button
-  $(".btn-prev").click(function () {
-    const current_fs = $(this).closest(".form-step");
-    const prev_fs = current_fs.prev(".form-step");
-    current_fs.hide();
-    prev_fs.show();
-    current--;
-  });
-
-  // 👉 Dropdown service selection
-  const tagsContainer = document.getElementById("selectedTags");
-  const serviceList = document.getElementById("serviceList");
-
-  serviceList.addEventListener("click", function (e) {
-    const item = e.target.closest(".dropdown-item");
-    if (!item) return;
-    e.preventDefault();
-
-    if (item.classList.contains("other-option")) {
-      if (!document.querySelector(".other-input")) {
-        const input = document.createElement("input");
-        input.type = "text";
-        input.placeholder = "Enter custom service";
-        input.classList.add("other-input", "form-control", "mt-2");
-        item.parentElement.insertAdjacentElement("afterend", input);
-        input.focus();
-
-        input.addEventListener("blur", function () {
-          const val = input.value.trim();
-          if (val) {
-            const newItem = document.createElement("li");
-            const newLink = document.createElement("a");
-            newLink.classList.add("dropdown-item");
-            newLink.href = "#";
-            newLink.setAttribute("data-value", val);
-            newLink.textContent = val;
-            newItem.appendChild(newLink);
-            serviceList.insertBefore(newItem, serviceList.lastElementChild);
-            toggleSelection(newLink, val);
-          }
-          input.remove();
-        });
-      }
-    } else {
-      const value = item.getAttribute("data-value");
-      toggleSelection(item, value);
-    }
-  });
-
-  function toggleSelection(element, value) {
-    const index = selectedServices.indexOf(value);
-    if (index === -1) {
-      selectedServices.push(value);
-      element.innerHTML = value + ' <span class="checkmark">&#10003;</span>';
-    } else {
-      selectedServices.splice(index, 1);
-      element.innerHTML = value;
-    }
-    renderTags();
-  }
-
-  function renderTags() {
-    tagsContainer.innerHTML = "";
-    selectedServices.forEach(value => {
-      const tag = document.createElement("span");
-      tag.classList.add("tag");
-      tag.textContent = value;
-      tagsContainer.appendChild(tag);
-    });
-  }
-
-
-
-  const now = new Date();
-
-// Date format: DD/MM/YY
-const formattedDate = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear().toString().slice(-2)}`;
-
-
-
-function getDateSuffix(day) {
-  if (day > 3 && day < 21) return "th";
-  switch (day % 10) {
-    case 1: return "st";
-    case 2: return "nd";
-    case 3: return "rd";
-    default: return "th";
-  }
-}
-
-const day = now.getDate();
-const month = now.toLocaleString('en-US', { month: 'short' }); // Aug
-const year = now.getFullYear();
-
-const formattedDateformate = `${day}${getDateSuffix(day)} ${month}, ${year}`;
-
-console.log(formattedDate);
-
-
-// Time format: HH:MM:SS (24-hour)
-const formattedTime = now.toLocaleTimeString('en-GB', {
-  hour: '2-digit',
-  minute: '2-digit',
-  hour12: true
-});
-
-
-  // 👉 Final Submit (show confirmation modal)
-  $("#msform").on("submit", function (e) {
-    e.preventDefault();
-
-    const phoneInput = $("#phoneNumber").val().trim();
-    const phonePattern = /^[6-9]\d{9}$/;
-    if (!phonePattern.test(phoneInput)) {
-      Swal.fire({
-        icon: "error",
-        title: "Invalid Phone Number",
-        text: "Please enter a valid 10-digit phone number."
-      });
-      return false;
-    }
-
-    refNo = Math.floor(1000 + Math.random() * 9000);
-    const form = document.getElementById("msform");
-
-  const confirmationTable = `
-         <div class="modal-header">
-      <div class="col-lg-5 col-6 d-flex ">
-<div>
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M8 2V6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M16 2V6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M5 4H19C19 4 21 4 21 6V20C21 20 21 22 19 22H5C5 22 3 22 3 20V6C3 6 3 4 5 4Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M3 10H21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-</div>
-
-        <div class="ms-2">
-          <h3 class="curantdate">Date</h3>
-          <p class="">${formattedDateformate}</p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-6   d-flex ">
-<div>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_3_95)">
-<path d="M12 0C5.36327 0 0 5.36327 0 12C0 18.6367 5.36327 24 12 24C18.6367 24 24 18.6367 24 12C24 5.36327 18.6367 0 12 0ZM12 22.0065C6.4849 22.0065 1.99347 17.5151 1.99347 12C1.99347 6.4849 6.4849 1.99347 12 1.99347C17.5151 1.99347 22.0065 6.4849 22.0065 12C22.0065 17.5151 17.5151 22.0065 12 22.0065Z" fill="black"/>
-<path d="M14.2482 10.9767H13.0237V6.27953C13.0237 5.71627 12.5633 5.25586 12 5.25586C11.4367 5.25586 10.9763 5.71627 10.9763 6.27953V12.0003C10.9763 12.5636 11.4367 13.024 12 13.024H14.2482C14.8114 13.024 15.2718 12.5636 15.2718 12.0003C15.2718 11.4371 14.8065 10.9767 14.2482 10.9767Z" fill="black"/>
-</g>
-<defs>
-<clipPath id="clip0_3_95">
-<rect width="24" height="24" fill="white"/>
-</clipPath>
-</defs>
-</svg>
-</div>
-
-        <div class="ms-2">
-          <h3 class="curantaime">Time</h3>
-          <p class="">${formattedTime}</p>
-        </div>
-      </div>
-
-      </div>
-    <div class="modal-body">
-      <div class="row g-2">
-        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
-          <div class="label">Customer Name</div>
-            <div class="value">
-              <input type="text" class="form-control" id="cf_name" value="${(form.fname?.value || "") + ' ' + (form.lname?.value || "")}" disabled>
-              </div>
-        </div>
-        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
-          <div class="label">Phone Number</div>
-            <div class="value">
-              <input type="text" class="form-control" id="cf_phone" value="${form.phoneNumber?.value || ""}" disabled>
-              </div>
-        </div>
-       
-        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
-          <div class="label">Vehicle Number</div>
-            <div class="value">
-              <input type="text" class="form-control" id="cf_number" value="${form.Car_Number?.value || ""}" disabled>
-              </div>
-        </div>
-        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
-          <div class="label">Vehicle Brand</div>
-            <div class="value">
-              <input type="text" class="form-control" id="cf_brand" value="${form.Brand?.value || ""}" disabled>
-              </div>
-        </div>
-        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
-          <div class="label">Vehicle Model</div>
-            <div class="value">
-              <input type="text" class="form-control" id="cf_model" value="${form.Model?.value === 'Other' ? form.OtherModel?.value || '' : form.Model?.value || ''}" disabled>
-              </div>
-        </div>
-        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
-          <div class="label">Vehicle Color</div>
-            <div class="value">
-              <input type="text" class="form-control" id="cf_color" value="${form.CarColor?.value === 'Other' ? form.OtherColor?.value || '' : form.CarColor?.value || ''}" disabled>
-              </div>
-        </div>
-        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
-          <div class="label">Drop Location</div>
-            <div class="value">
-              <input type="text" class="form-control" id="cf_store" value="${form.Store?.value === 'Other' ? form.OtherStore?.value || '' : form.Store?.value || ''}" disabled>
-              </div>
-        </div>
-        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
-          <div class="label"> Delivery Date & Time</div>
-            <div class="value">
-              <input type="text" class="form-control" id="cf_time" value="${(form.dateInput?.value || "") + ' ' + (form.timeInput?.value || "")}" disabled>
-              </div>
-        </div>
-         <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
-          <div class="label">Service Type</div>
-            <div class="value">
-              <input type="text" class="form-control" id="cf_services" value="${selectedServices}" disabled>
-              </div>
-        </div>
-        <div class="col-lg-4 col-6  mb-md-3 mb-1 ">
-  <div class="label">Source of Sale</div>
-  <div class="value">
-    <input type="text" class="form-control" id="cf_source" 
-value="${form.SaleSource?.value === 'MarketingPerson' ? (form.MarketingPersonName?.value || '') : (form.SaleSource?.value || '')}" 
-    disabled>
-  </div>
-</div>
-
-<div class="col-lg-4 col-6  mb-md-3 mb-1 ">
-  <div class="label">Payment Mode</div>
-  <div class="value">
-    <input type="text" class="form-control" id="cf_payment" 
-    value="${form.PaymentMode?.value === 'Other' ? (form.OtherPayment?.value || '') : (form.PaymentMode?.value || '')}" 
-    disabled>
-  </div>
-</div>
-
-<div class="col-lg-4 col-6  mb-md-3 mb-1 ">
-  <div class="label">Total Amount</div>
-  <div class="value">
-    <input type="text" class="form-control" id="cf_total" 
-value="${form.Total_Amount?.value || ''}" 
-      disabled>
-  </div>
-</div>
-<div class=" col-12  mb-md-3 mb-1 ">
-  <div class="label">Comment</div>
-  <div class="value">
-    <input type="text" class="form-control" id="cf_total" 
-      value="${form.comment?.value  || ''}" 
-      disabled>
-  </div>
-</div>
-
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="editbtn btn-secondary">Edit</button>
-      <button type="button" class="conformbtn" id="confirmSubmit">Confirm & Print</button>
-    </div>`;
-
-    $("#confirmationContent").html(confirmationTable);
-    const modal = new bootstrap.Modal(document.getElementById("confirmationModal"));
-    modal.show();
-  });
-
-  // 👉 Edit button
-$(document).on("click", ".editbtn", function () {
-  $("#confirmationContent input")
-    .prop("disabled", false)
-    .css({
-      "border": "1px solid #797979",
-      "outline": "none",
-         "border-radius": "3px"
-    });
-});
-
-
-
-  // 👉 Confirm & Print
-$(document).on("click", "#confirmSubmit", function () {
-  const $btn = $(this);
-
-  // ✅ Prevent multiple clicks
-  if ($btn.prop("disabled")) return;
-  $btn.prop("disabled", true).text("Processing...");
-
-  const data = {
-    fullName: $("#cf_name").val(),
-    phoneNumber: $("#cf_phone").val(),
-    Brand: $("#cf_brand").val(),
-    Model: $("#cf_model").val(),
-    car_color: $("#cf_color").val(),
-    Car_Number: $("#cf_number").val(),
-    service: $("#cf_services").val(),
-    Store: $("#cf_store").val(),
-    State: $("#cf_state").val(),
-    dateInput: $("#cf_date").val(),
-    timeInput: $("#cf_time").val(),
-  sourceOfSale: $("#cf_source").val(),   // ✅ new
-  paymentMode: $("#cf_payment").val(),   // ✅ new
-  totalAmount: $("#cf_total").val(), 
-    comment: $("#comment").val() || "" ,
-    Reg_No: refNo,
-  };
-
-  // ✅ Save to Google Sheet
-  fetch("https://script.google.com/macros/s/AKfycbyGdZHPs5vwXddUPAi7MKygBELrmyFERpME_nujFhhGk1XD5Xu8lmw9_rSJZMV6wsI/exec", {
-    method: "POST",
-    body: JSON.stringify(data)
-  })
-    .then(res => res.json())
-    .then(() => {
-      Swal.fire({
-        icon: "success",
-        title: "Document Ready!",
-        text: "Click OK to Print the customer copy",
-        confirmButtonText: "OK"
-      }).then(() => {
-        // ⏳ Delay before print (500ms)
-        setTimeout(() => {
-          let formattedDate = new Date().toLocaleDateString();
-           let printHTML = `
-   
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Acknowledgment Slip</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking Receipt Form</title>
 
-    
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');
-    body {
-      background-color: #f8f9fa;
-       font-family: "Onest", sans-serif;
-    }
-
-    .slip {
-      background-color: #e3e3e3;
-      /* background-color: #fff; */
-      max-width: 260px;
-      margin: 20px auto;
-      padding: 20px 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.08);
-          /* color: #3d3d3d; */
-      /* color: #231f20; */
-    }
-
-    .reg-number {
-      text-align: end;
-    }
- .reg-number p {
-font-size: 8px;
-      color: #231f20;
-      font-weight: 600;
-      margin-bottom: 0;
-      letter-spacing: 1px;
-      line-height: 1;
- }
-    .reg-number span {
-      font-size: 18px;
-      font-weight: 600;
-      display: block;
-  
-    }
-
-    .title {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-.title h6 {
-    font-weight: 600;
-    letter-spacing: 0px;
-    font-size: 8px;
-    margin: 0;
-    margin-top: 20px;
-
-}
-
-.title h4 {
-    font-weight: 800;
-    font-size: 18px;
-     color: #231f20;
-}
-
-    .info-label {
-   letter-spacing: 1px;
-    font-size: 8px;
-  color: #3d3d3d;
-    font-weight: 700;
-      text-transform: uppercase;
-      margin-bottom: 2px;
-
-    }
-
-    .info-value {
-      font-weight: 800;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      font-size: 9px;
-        color: #231f20;
-        letter-spacing: 1px;
-    }
-.date{
-  font-size: 8px;
-      color: #231f20;
-      font-weight: 600;
-}
-    .pickup {
-        font-weight: 800;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      font-size: 9px;
-        color: #231f20;
-        letter-spacing: 1px;
-    }
-
-    .signature {
-      font-size: 8px;
-    text-transform: uppercase;
-    margin-top: 1px;
-    }
-
-    .signature img {
-      width: 50px;
-      margin-top: 5px;
-      margin-left: 20px;
-    }
-    .thankyoutext{
-      font-size: 8px;
-      margin-right: 20px;
-      line-height: 1;
-    }
-    .botomtext p{
-      font-size: 9px;
-        line-height: 1;
-        margin-bottom: 0;
-        letter-spacing: 1px;
-        color: #231f20;
-        font-weight: 600;
-
-    }
-      .botomtext h3{
-        font-size: 14px;
-        line-height: 1;
-        margin-bottom: 0;
-        font-weight: 900;
-        margin-block: 5px;
-             color: #231f20;
-      }
-         .botomtext span{
-          font-size: 8px;
-        line-height: 1;
-        display: block;
-        text-align: center;
-             color: #231f20;
-        font-weight: 600;
-         }
-         .spacialoffer{
-           font-size: 30px;
-        line-height: 1;
-             /* color: #d8d8d8; */
-             color: #231f20;
-        font-weight: 900;
-        margin-top: 30px;
-        margin-left: -30px;
-        margin-bottom: 0px;
-         }
-         .offertext{
-             font-size: 18px;
-        line-height: 1;
-             color: #3d3d3d;
-             /* color: #d8d8d8; */
-             letter-spacing: 1px;
-        font-weight: 500;
-        margin-left: 33px;
-        display: block;
-        margin-bottom: 20px;
-         }
-  </style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<!-- Bootstrap Select CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="./style.css">
 </head>
-<body>
-  <div class="slip">
-    <div class="mb-2">
-      <div class="d-flex justify-content-between">
-        <div>
-          <p class="date">${formattedDate}</p>
+
+
+
+  <body>
+
+    <div id="loader">
+      <!-- <img src="./logo.png" alt="Logo"> -->
+       <img src="./logo.svg" alt="Logo" height="80px" width="80px">
+    </div>
+    <!-- Header -->
+
+
+    <div id="mainContent">
+    <div class="container-fluid bookingcontainer p-0"  >
+      <div class="form-header d-flex justify-content-between align-items-center">
+        <h1> <span class="d-block"> Booking </span> Print Receipt</h1>
+        <div class="logolight-img" >
+          <img src="./light-logo.png" alt=""  >
         </div>
-        <div class="reg-number">
-          <p>UIN:</p><span>${data.Reg_No}</span>
-        </div>
-      </div>
+    </div>
+      <!-- Form Box -->
+<div class="container px-sm-5 p-0">
+  <div class="form-box">
+      <form id="msform" name="msform">
+     <!-- Step 1 -->
+    <div class="form-step active form-one-block">
+              <div class="form-top-part">
+                <h3>Vehicle Details</h3>
+                <p>Please select the vehicle brand of the customer</p>
+                <div class="row gy-md-4 gy-3 align-items-center justify-content-between">
+                  <div class="col-lg-5">
+                    <select
+                      id="Brand"
+                      name="Brand"
+                      class="form-select"
+                      required >
+  <option value="" disabled selected>Select Brand</option>
+  <option value="Audi">Audi</option>
+  <option value="Bajaj">Bajaj</option>
+  <option value="BMW">BMW</option>
+  <option value="Chevrolet">Chevrolet</option>
+  <option value="Citroen">Citroen</option>
+  <option value="Datsun">Datsun</option>
+  <option value="Ducati">Ducati</option>
+  <option value="Ford">Ford</option>
+  <option value="Harley-Davidson">Harley-Davidson</option>
+  <option value="Hero">Hero</option>
+  <option value="Honda">Honda</option>
+  <option value="Hyundai">Hyundai</option>
+  <option value="Jaguar">Jaguar</option>
+  <option value="Jawa">Jawa</option>
+  <option value="Jeep">Jeep</option>
+  <option value="Kawasaki">Kawasaki</option>
+  <option value="Kia">Kia</option>
+  <option value="KTM">KTM</option>
+  <option value="Land Rover">Land Rover</option>
+  <option value="Lexus">Lexus</option>
+  <option value="Mahindra">Mahindra</option>
+  <option value="Maruti Suzuki">Maruti Suzuki</option>
+  <option value="Mercedes-Benz">Mercedes-Benz</option>
+  <option value="MG Motors">MG Motors</option>
+  <option value="Mini Cooper">Mini Cooper</option>
+  <option value="Nissan">Nissan</option>
+  <option value="Porsche">Porsche</option>
+  <option value="Renault">Renault</option>
+  <option value="Royal Enfield">Royal Enfield</option>
+  <option value="Skoda">Skoda</option>
+  <option value="Suzuki">Suzuki</option>
+  <option value="Tata">Tata</option>
+  <option value="Toyota">Toyota</option>
+  <option value="Triumph">Triumph</option>
+  <option value="TVS">TVS</option>
+  <option value="Volkswagen">Volkswagen</option>
+  <option value="Volvo">Volvo</option>
+  <option value="Yamaha">Yamaha</option>
 
-      <div class="title">
-        <h6>ACKNOWLEDGMENT SLIP</h6>
-        <h4>ORIGINAL COPY</h4>
-      </div>
 
-      <div>
-        <div class="info-label">Customer Name</div>
-        <div class="info-value">${data.fullName}</div>
+                    </select>
+                  </div>
+                  <div class="col-lg-5">
+                    <select id="Model" class="form-select" disabled required>
+                      <option value="" selected>Select Model</option>
+                    </select>
+                  </div>
+                  <div
+                    class="col-lg-8"
+                    id="otherModelContainer"
+                    style="display: none">
+                    <h5 class="text-muted">Enter your specific model name</h5>
+                    <input
+                      type="text"
+                      id="OtherModel"
+                       name="OtherModel"
+                      class="form-control custom-input  ms-lg-3"
+                      placeholder="Enter other model"/>
+                  </div>
+                </div>
+              </div>
+              <div class="text-end mt-4 form-bottom-part text-center">
+                <button type="button" class="btn-next fullback ">Next</button>
+              </div>
+    </div>
+    <!-- Step 2 -->
+    <div class="form-step ">
+             <div class="form-top-part">
+             <!-- <div class="d-lg-none d-block ">
+                      <h3 class="colorheading">Vehicle Color</h3>
+                      <p>Please fill out the color of the vehicle</p>
+                    </div> -->
+                 <div class="row g-lg-5">
+                  <div class="col-lg-7">
+                    <div class="mt-lg-4 ">
+                      <h3 class="colorheading">Vehicle Color</h3>
+                      <p>Please fill out the color of the Vehicle</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-5">
+                    <div class="mt-lg-5 ">
+                      <select
+                        id="CarColor"
+                        name="CarColor"
+                        class="form-select"
+                        required
+                      >
+                        <option value="" disabled selected>Select Color</option>
+                        <option value="White">White</option>
+                        <option value="Black">Black</option>
+                        <option value="Silver">Silver</option>
+                        <option value="Grey">Grey</option>
+                        <option value="Red">Red</option>
+                        <option value="Blue">Blue</option>
+                        <option value="Green">Green</option>
+                        <option value="Yellow">Yellow</option>
+                        <option value="Orange">Orange</option>
+                        <option value="Brown">Brown</option>
+                        <option value="Beige">Beige</option>
+                        <option value="Gold">Gold</option>
+                        <option value="Maroon">Maroon</option>
+                        <option value="Purple">Purple</option>
+                        <option value="Pink">Pink</option>
+                        <option value="Teal">Teal</option>
+                        <option value="Other">Other</option>
+                      </select>
+                      <input
+                        type="text"
+                        id="OtherColor"
+                        name="OtherColor"
+                        class="form-control mt-lg-2  mt-3 custom-input"
+                        placeholder="Specify your own color"
+                        style="display: none"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn-prev">
+               Back
+                </button>
+                <button type="button" class=" btn-next">
+                  Next
+                </button>
+              </div>
+          
+    </div> 
+     <!-- Step 3 -->
+     <div class="form-step">
 
-        <div class="info-label">Make & Model</div>
-        <div class="info-value">${data.Brand} ${data.Model}</div>
+               <div class="form-top-part">
+             <!-- <div class="d-lg-none d-block ">
+                      <h3 class="colorheading">Select Service</h3>
+                      <p>Choose the service required by the customer</p>
+                    </div> -->
+                 <div class="row g-lg-5">
+                  <div class="col-lg-6">
+                    <div class=" mt-lg-4 ">
+                      <h3 class="colorheading">Select Service</h3>
+                      <p>Choose the service required by the customer</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="mt-lg-5 ">
+                      <!-- Dropdown -->
+  <div class="dropdown">
+    <button class=" multylist dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" id="multiSelectBtn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+      Select Services
+    </button>
+   <ul class="dropdown-menu w-100" aria-labelledby="multiSelectBtn" id="serviceList">
+  <li><a class="dropdown-item" href="#" data-value="Buffing">Buffing</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Ceramic Coating">Ceramic Coating</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Correction">Correction</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Denting & Painting">Denting & Painting</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Detailing Services">Detailing Services</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Drycleaning">Drycleaning</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Graphene Coating">Graphene Coating</a></li>
+  <li><a class="dropdown-item" href="#" data-value="High Gloss Treatment">High Gloss Treatment</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Hydrodip">Hydrodip</a></li>
+  <li><a class="dropdown-item" href="#" data-value="In+Out Wash">In+Out Wash</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Interior Cleaning">Interior Cleaning</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Polishing">Polishing</a></li>
+  <li><a class="dropdown-item" href="#" data-value="PPF">PPF</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Rubbing">Rubbing</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Sunroof PPF (UV Protected)">Sunroof PPF (UV Protected)</a></li>
+    <li><a class="dropdown-item" href="#" data-value="Washing">Washing</a></li>
+  <li><a class="dropdown-item" href="#" data-value="Window Film">Window Film</a></li>
+  <li><a class="dropdown-item other-option" href="#" data-value="Other">Other</a></li>
+</ul>
 
-        <div class="info-label">Vehicle Number</div>
-        <div class="info-value">${data.Car_Number}</div>
+  </div>
 
-        <div class="info-label">Service Type</div>
-        <div class="info-value">${data.service}</div>
-
-        <div class="info-label">Pickup Date & Time</div>
-        <div class="pickup">${data.timeInput}</div>
-
-        <div class="info-label">Drop Location</div>
-        <div class="info-value">${data.Store}</div>
-
-        <div class="d-flex justify-content-between mt-4">
-          <div>
-            <p class="thankyoutext">
-              Thank you for choosing us! We appreciate your trust in us. Sit back and relax while we take care of everything your car needs.
-            </p>
-          </div>
-          <div>
-                     <img src="./qr-code.png" alt="QR Code" width="50px" height="50px">
-          </div>
-        </div>
-      </div>
-
-      <div class="signature">
-        Signature & Acknowledgement<br>
-        <img src="./Asset 1.svg" alt="">
-      </div>
+    <div id="selectedTags" class="mt-3"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between mt-4">
+                <button type="button" class=" btn-prev">
+                  Back
+                </button>
+                <button type="button" class="btn-next">
+                  Next
+                </button>
+              </div>
+     </div> 
+     <!-- Step 4-->
+    <div class="form-step ">
+              <div class="form-top-part">
+                <h3>Select City</h3>
+                <p>Mention the place of service</p>
+                <div class="row gy-md-4 gy-3 align-items-center justify-content-between">
+                  <div class="col-lg-5">
+                                  <select id="State" name="State" class="form-select" required>
+      <option value="" selected disabled>Select State</option>
+    </select>
     </div>
 
-    <div>
-      <div>
-        <div class="mt-4">
-          <h6 class="spacialoffer">SPECIAL</h6>
-          <span class="offertext">OFFER</span>
-        </div>
-      </div>
+                  <div class="col-lg-5">
+       <select id="Store"  name="Store"  class="form-select" disabled required>
+                                    <option value=" " selected disabled>Select Store</option>
+                                  </select>
+                  </div>
+                  <div
+                    class="col-lg-8"
+                    id="otherStoreContainer"
+                    style="display: none"
+                  >
+                    <h5 class="text-muted ps-2">Enter Your Specific Store Location</h5>
+                    <input
+                      type="text"
+                      id="OtherStore"
+                      class="form-control custom-input w-lg-75 ms-1"
+                      placeholder="Enter  Store Location"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn-prev">
+               Back
+                </button>
+                <button type="button" class=" btn-next">
+                  Next
+                </button>
+              </div>
+    </div> 
+     <!-- Step 5-->
+    <div class="form-step ">
+              <div class="form-top-part">
+           <h3> Vehicle Number</h3>
+    <p>Provide the registration number of your Vehicle <span class="d-lg-block">
+      (If no registration number please mention temporary number)
+    </span></p>
+                <div class="row ">
+                  <div class="col-lg-6 mt-lg-0 mt-lg-0 mt-md-5 mt-3">
+                    <input
+                      type="text"
+                      class="form-control custom-input vninput "
+                      placeholder="Enter Vehicle  Number"
+                      required
+                      name="Car_Number"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn-prev">
+               Back
+                </button>
+                <button type="button" class=" btn-next">
+                  Next
+                </button>
+              </div>
+    </div>
+     <!-- Step 6-->
+    <div class="form-step ">
+              <div class="form-top-part">
+                <h3>Delivery Date</h3>
+                <p>Select the exact Delivery Date and Time when you will be <span class="d-lg-block">handing over the Vehicle to the customer</span></p>
+                <div class="row gy-md-4 gy-3 align-items-center justify-content-between">
+                  <div class="col-lg-5">
+                <input type="text" id="serviceDate" class="form-control custom-input" placeholder="Select Date" name="dateInput" autocomplete="off">
+                  </div>
+                  <div class="col-lg-5">
+  <input type="text" id="serviceTime" class="form-control custom-input" placeholder="Select Time"   name="timeInput" autocomplete="off" >
+                  </div>
 
-      <div class="d-flex justify-content-center botomtext mt-4">
-        <div>
-          <p>GET A CAR WASH</p>
-          <h3>ABSOLUTELY FREE</h3>
-          <span>Valid for one month only</span>
-        </div>
+                 
+                </div>
+              </div>
+              <div class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn-prev">
+               Back
+                </button>
+                <button type="button" class=" btn-next">
+                  Next
+                </button>
+              </div>
+    </div>
+    <!-- Step 7-->
+    <div class="form-step">
+              <div class="form-top-part">
+           <h3>Personal Details</h3>
+    <p>Please fill out the details of the customer</p>
+                <div class="row  align-items-center gy-4 justify-content-between">
+                  <div class="col-md-12 ">
+                    <input
+                      type="text"
+                      class="form-control custom-input "
+                      placeholder="First Name"
+                      required
+                      name="fname"/>
+                  </div>
+                   <div class="col-md-12">
+                    <input
+                      type="text"
+                      class="form-control custom-input "
+                      placeholder="Last Name"
+                  
+                      name="lname"
+                    />
+                  </div>
+                   <!-- <input
+                      type="text"
+                      class="form-control custom-input "
+                      placeholder="Total Amount "
+                      name="Total_Amount"
+                      required
+                    /> -->
+
+                </div>
+              </div>
+              <div class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn-prev">
+               Back
+                </button>
+                <button type="button" class=" btn-next">
+                  Next
+                </button>
+              </div>
+    </div>
+  <!-- Step 8-->      
+    <div class="form-step">
+              <div class="form-top-part">
+           <h3> Contact Number</h3>
+    <p>Enter the customer’s phone number for records and <span class="d-lg-block">follow-up (Preferred whatsapp number)</span></p>
+                <div class="row ">
+                  <div class="col-lg-6">
+                    <input
+                      type="number"
+                      class="form-control custom-input"
+                      placeholder="Phone Number"
+                       id="phoneNumber"
+                       required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn-prev">
+               Back
+                </button>
+                <button type="button" class=" btn-next">
+                  Next
+                </button>
+              </div>
+    </div>
+  <!-- Step 9-->
+    <div class="form-step ">
+             <div class="form-top-part">
+             <!-- <div class="d-lg-none d-block ">
+                      <h3 class="colorheading">Source of Sale</h3>
+                      <p>Please select the source of sale</p>
+                    </div> -->
+                 <div class="row g-lg-5">
+                  <div class="col-lg-7">
+                    <div class=" mt-lg-4 ">
+                      <h3 class="colorheading">Source of Sale</h3>
+                      <p>Please select the source of sale</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-5">
+                    <div class="mt-lg-5 ">
+  <select
+          id="SaleSource"
+          name="SaleSource"
+          class="form-select"
+          required
+        >
+          <option value="" disabled selected>Select Source</option>
+          <option value="Company">Company</option>
+          <option value="MarketingPerson">Marketing Person</option>
+        </select>
+                      <input
+          type="text"
+          id="MarketingPersonName"
+          name="MarketingPersonName"
+          class="form-control mt-lg-2 mt-3 custom-input"
+          placeholder="Enter Marketing Person's Name"
+          style="display: none"
+        />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn-prev">
+               Back
+                </button>
+                <button type="button" class=" btn-next">
+                  Next
+                </button>
+              </div>
+          
+    </div> 
+  <!-- Step 10-->
+              <div class="form-step">
+   <div class="form-top-part">
+           <h3>Payment Details</h3>
+    <p>Please select the payment mode and enter the total amount</p>
+                <div class="row   gy-4 justify-content-between">
+  <div class="col-lg-5">
+ <div class=" ">
+    <select
+      id="PaymentMode"
+      name="PaymentMode"
+      class="form-select"
+      required
+    >
+      <option value="" disabled selected>Payment Mode</option>
+       
+      <option value="UPI">UPI</option>
+      <option value="Cash">Cash</option>
+      <option value="Card">Card</option>
+       <option value="Nil">NIL</option>
+      <option value="Pending">Pending</option>
+      <option value="UPI+Cash">UPI + Cash</option>
+      <option value="Card+Cash">Card + Cash</option>
+    </select>
+
+    </div>
+  </div>
+        <div class="col-lg-5">
+   <input
+          type="text"
+          id="comment"
+          name="comment"
+          class="form-control mt-lg-2 mt-3 custom-input"
+          placeholder="Add Comment"
+        />
+                  </div>
+
+                </div>
+              </div>
+              <div class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn-prev">
+               Back
+                </button>
+                <button type="button" class=" btn-next">
+                  Next
+                </button>
+              </div>
+    </div>
+   <div class="form-step">
+  <div class="form-top-part">
+    <h3>Total Amount</h3>
+    <p>
+      Enter the total amount to be paid by the customer</span>
+    </p>
+    <div class="row">
+      <div class="col-lg-6">
+       <input
+                      type="text"
+                      class="form-control custom-input "
+                      placeholder="Total Amount "
+                      name="Total_Amount"
+                      required
+                    />
       </div>
     </div>
   </div>
-</body>
+
+                  <div class="d-flex justify-content-between mt-4">
+                <button type="button" class=" btn-prev">
+                  Back
+                </button>
+                <button type="submit" class=" submi-btn btn-next">Done</button>
+              </div>
+    </div>
+      </form>
+  </div>
+</div>
+    </div>
+    </div>
+
+<!-- ===================================model====================================== -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" id="confirmationContent">
+      
+
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" >Edit</button>
+        <button type="button" class="btn btn-primary" id="confirmSubmit">Confirm & Submit</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script src="./sales_form.js"></script>
+<!------------------------------------------- // Replace with your EmailJS Public Key ----------------------------------------->
+
+<script>
+  emailjs.init("-WovZf3jMK10jTEUb"); 
+</script>
+
+
+
+
+    <script>
+      // Loader timeout
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          // slide-up class add
+          document.getElementById("loader").classList.add("slide-up");
+
+          // form show after animation
+          setTimeout(function () {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("mainContent").style.display = "block";
+          }, 1000); // wait for slide animation
+        }, 5000); // 5 seconds loader time
+      });
+    </script>
+  </body>
 </html>
-`;
-          $("#msform")[0].reset();
-          selectedServices.length = 0;
-          renderTags();
-
-          // Reset service dropdown checkmarks
-          $("#serviceList .dropdown-item").each(function () {
-            const value = $(this).attr("data-value");
-            $(this).html(value);
-          });
 
 
-          $(".form-step").hide().first().show();
-          current = 1;
 
-          const newWin = window.open();
-          newWin.document.write(printHTML);
-          newWin.document.close();
-          newWin.focus();
-          newWin.print();
 
-          // ✅ Close modal
-          const modal = bootstrap.Modal.getInstance(document.getElementById("confirmationModal"));
-          modal.hide();
+<!-- "script"=========================== -->
 
-          setTimeout(() => document.activeElement?.blur(), 10);
-          window.location.reload();
-        }, 500);
-      });
-    })
-    .catch(err => {
-      console.error("Error:", err);
-      Swal.fire("Error", "Something went wrong, please try again!", "error");
-    })
-    .finally(() => {
-      // ✅ Re-enable button
-      $btn.prop("disabled", false).text("Confirm & Print");
-    });
-});
 
-});
 
-// =================================================date=time-function===============================================
 
-// Date Picker
-flatpickr("#serviceDate", {
-  dateFormat: "d-m-Y", 
-  allowInput: true,
-  disableMobile: true
-});
-// Time Picker
-flatpickr("#serviceTime", {
-  enableTime: true,
-  noCalendar: true,
-  dateFormat: "H:i",   // 24-hour format (e.g. 17:30)
-  allowInput: true,
-  disableMobile: true,
-  time_24hr: true      // Enable 24-hour mode
-});
 
-// ==================================================brand-and model==================================
+<!-- function doPost(e) {
+  var data = JSON.parse(e.postData.contents);
 
-// ==================================================brand-and model==================================
-      const modelData = {
-        Audi: [
-          "A3",
-          "A3 Cabriolet",
-          "A4",
-          "A6",
-          "A6 Matrix",
-          "Q2",
-          "Q3",
-          "Q5",
-          "Q7",
-          "R8",
-          "RS5",
-          "RS6",
-          "RS7 Sportback",
-          "S5 Sportback",
-          "TT",
-        ],
-         Bajaj: [
-    "Pulsar 150",
-    "Pulsar NS200",
-    "Pulsar RS200",
-    "Dominar 400",
-    "Avenger Cruise 220",
-    "CT 100",
-    "Platina 110",
-  ],
-        BMW: [
-          "2 Series Gran Coupe",
-          "3 Series",
-          "3 Series GT",
-          "4 Series",
-          "5 Series",
-          "5 Series GT",
-          "6 Series",
-          "7 Series",
-          "8 Series",
-          "i8",
-          "M3",
-          "M5",
-          "X1",
-          "X3",
-          "X4",
-          "X5",
-          "X6",
-          "Z4",
-        ],
-        Chevrolet: [
-          "Aveo",
-          "Aveo Old",
-          "Aveo U-VA",
-          "Beat",
-          "Captiva",
-          "Cruze",
-          "Enjoy",
-          "Forester",
-          "Optra",
-          "Optra Magnum",
-          "Optra SRV",
-          "Sail",
-          "Sail Hatchback",
-          "Sail U-VA",
-          "Spark",
-          "Tavera",
-          "Trailblazer",
-        ],
-        Citroen: ["Basalt", "C3", "C3 AIRCROSS", "C5 Aircross"],
-        Datsun: ["GO", "Go Puls"],
-         Ducati: ["Panigale V4", "Monster", "Diavel 1260", "Scrambler Icon", "Multistrada V4"],
-        Ford: [
-          "Classic",
-          "Escort",
-          "Fiesta",
-          "Fiesta Classic",
-          "Freestyle",
-          "Fusion",
-          "Ikon",
-          "Mondeo",
-          "Mustang",
-        ],
-      "Harley-Davidson": ["Iron 883", "Street 750", "Forty-Eight", "Fat Boy", "Road Glide"],
-  Hero: ["Splendor Plus", "HF Deluxe", "Passion Pro", "Glamour", "Xtreme 160R"],
-        Honda: [
-          "Accord",
-          "Amaze",
-          "BR-V",
-          "Brio",
-          "City",
-          "Civic",
-          "Civic Hybrid",
-          "CR-V",
-          "Elevate",
-          "Jazz",
-          "Mobilio",
-          "WR-V",
-        ],
-        Hyundai: [
-          "Accent",
-          "Accent Viva",
-          "Alcazar",
-          "Aura",
-          "Creta",
-          "Creta N-Line",
-          "Elantra",
-          "Eon",
-          "Exter",
-          "Getz",
-          "Getz Prime",
-          "Grand i10",
-          "Grand i10 Nios",
-          "i10",
-          "i20",
-          "Neo Fluidic Elantra",
-          "New Santro 1.1",
-          "Santa Fe",
-          "Santro",
-          "Santro Xing",
-          "Sonata",
-          "Sonata Embera",
-          "Terracan",
-          "Tucson",
-          "Venue",
-          "Venue N-Line",
-          "Xcent",
-        ],
-          Jaguar: [
-    "F-Pace",   
-    "E-Pace",    
-    "I-Pace",     
-    "XE",         
-    "XF",        
-    "XJ",         
-  ],
-   Jawa: ["Jawa 42", "Jawa Perak", "Jawa Standard"],
-        Jeep: ["Compass", "Meridian", "Wrangler"],
-          Kawasaki: ["Ninja 300", "Ninja ZX-10R", "Z900", "Versys 650"],
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var storeName = data.Store;
 
-        Kia: ["Carens", "Carnival", "Seltos", "Sonet"],
-        "Land Rover": [
-          "Discovery",
-          "Discovery 3",
-          "Discovery 4",
-          "Discovery Sport",
-          "Range Rover Evoque",
-        ],
-         KTM: ["Duke 200", "Duke 390", "RC 200", "RC 390", "Adventure 250", "Adventure 390"],
-  "Land Rover": ["Discovery", "Discovery 3", "Discovery 4", "Discovery Sport", "Range Rover Evoque"],
-         Lexus: [
-    "NX",    
-    "RX",    
-    "LX",     
-    "ES",     
-    "LS",    
-    "LC 500h",
-    "LM", 
-  ],
-  "Mini Cooper": [
-    "Cooper",          
-    "Countryman",     
-    "Cooper SE",       
-    "Countryman Electric", 
-  ],
-        Mahindra: [
-          "Alturas G4",
-          "Armada",
-          "Bolero",
-          "Bolero Neo",
-          "e20",
-          "KUV100",
-          "KUV100 NXT",
-          "Marazzo",
-          "Marshal",
-          "NuvoSport",
-          "Quanto",
-          "REVAI",
-          "Scorpio",
-          "Scorpio Classic",
-          "Scorpio Getaway",
-          "Scorpio N",
-          "Thar",
-          "Thar Roxx",
-          "TUV 300 PLUS",
-          "TUV300",
-          "Verito",
-          "XUV 300",
-          "XUV 300 TurboSport",
-          "XUV 3XO",
-          "XUV500",
-          "XUV700",
-          "Xylo",
-        ],
-        "Maruti Suzuki": [
-          "1000",
-          "800",
-          "A-Star",
-          "Alto",
-          "Alto 800",
-          "Baleno",
-          "Brezza",
-          "Celerio",
-          "Celerio X",
-          "Ciaz",
-          "Dzire",
-          "Eeco",
-          "Esteem",
-          "Estilo",
-          "Fronx",
-          "Grand Vitara",
-          "Gypsy",
-          "Ignis",
-          "Invicto",
-          "Jimny",
-          "New Ertiga",
-          "Omni",
-          "Ritz",
-          "S-Cross",
-          "S-Presso",
-          "Swift",
-          "SX4",
-          "Versa",
-          "Wagon R",
-          "XL6",
-          "Zen",
-          "Zen Estilo",
-        ],
-        "MG Motors": ["Astor", "Gloster", "Hector", "Hector Plus", "ZS EV"],
-        "Mercedes-Benz": [
-          "A-Class",
-          "AMG GT",
-          "B-Class",
-          "C-Class",
-          "CLA",
-          "E-Class",
-          "E-Class Cabriolet",
-          "GL",
-          "GLA",
-          "GLB",
-          "GLC",
-          "GLE",
-          "GLE Coupe",
-          "GLS",
-          "ML-Class",
-          "S-Coupe",
-          "SL",
-        ],
-        Nissan: [
-          "350Z",
-          "370Z",
-          "Evalia",
-          "Kicks",
-          "Magnite",
-          "Micra",
-          "Micra Active",
-          "Sunny",
-          "Teana",
-          "Terrano",
-          "X-Trail",
-        ],
-         Porsche: [
-    "Macan",       
-    "Cayenne",      
-    "911",          
-    "Panamera",    
-    "Taycan",       
-    "718",          
-    "Cayenne Coupe",
-  ],
-        Renault: [
-          "Captur",
-          "Duster",
-          "Fluence",
-          "Kiger",
-          "Koleos",
-          "Kwid",
-          "Lodgy",
-          "Logan",
-          "Pulse",
-          "Scala",
-          "Triber",
-        ],
-         "Royal Enfield": ["Classic 350", "Bullet 350", "Meteor 350", "Hunter 350", "Interceptor 650", "Continental GT 650"],
-        Skoda: [
-          "Fabia",
-          "Fabia Scout",
-          "Karoq",
-          "Kodiaq",
-          "Kushaq",
-          "Laura",
-          "Octavia",
-          "Octavia Combi",
-          "Rapid",
-          "Slavia",
-          "Superb",
-          "Superb Old",
-          "Yeti",
-        ],
-        Tata: [
-          "Altroz",
-          "Aria",
-          "Bolt",
-          "Curvy",
-          "Harrier",
-          "Hexa",
-          "Indica",
-          "Indica V2",
-          "Indica V2 Turbo",
-          "Indica V2 Xeta",
-          "Indica Vista",
-          "Indica eV2",
-          "Indicab",
-          "Indigo",
-          "Indigo CS",
-          "Indigo XL",
-          "Indigo eCS",
-          "Indigo Marina",
-          "Manza",
-          "Movus",
-          "Nano",
-          "Nano GenX",
-          "Nexon",
-          "Nexon EV",
-          "Nexon EV Max",
-          "Nexon EV Prime",
-          "Punch",
-          "Safari",
-          "Safari Storme",
-          "Sierra",
-          "Sumo",
-          "Sumo Gold",
-          "Sumo Grande",
-          "Sumo Grande MK II",
-          "Sumo Spacio",
-          "Sumo Victa",
-          "Tiago",
-          "Tiago EV",
-          "Tiago NRG",
-          "Tigor",
-          "Tigor EV",
-          "Venture",
-          "Vista Tech",
-          "Xenon XT",
-          "Zest",
-        ],
-        Toyota: [
-          "Alphard",
-          "Camry",
-          "Celica",
-          "Corolla",
-          "Corolla Altis",
-          "Corona",
-          "Etios",
-          "Etios Cross",
-          "Etios Liva",
-          "Fortuner",
-          "Glanza",
-          "Hilux",
-          "Innova",
-          "Innova Crysta",
-          "Innova Hycross",
-          "Land Cruiser",
-          "Land Cruiser Prado",
-          "Prius",
-          "Qualis",
-          "Rumion",
-          "Urban Cruiser",
-          "Urban Cruiser Hyryder",
-          "Urban Cruiser Taisor",
-          "Yaris",
-        ],
-         Triumph: ["Bonneville T100", "Bonneville T120", "Street Twin", "Speed Triple 1200 RS", "Tiger 900"],
-  TVS: ["Apache RTR 160", "Apache RTR 200", "Apache RR 310", "Jupiter", "Ntorq 125"],
-        Volkswagen: [
-          "1600",
-          "Ameo",
-          "Beetle",
-          "Cross Polo",
-          "Jetta",
-          "Passat",
-          "Phaeton",
-          "Polo",
-          "T-Roc",
-          "Taigun",
-          "Tiguan",
-          "Tiguan AllSpace",
-          "Touareg",
-          "Virtus",
-          "Vento",
-        ],
-         Volvo: [
-    "XC90",       
-    "XC60",        
-    "XC40 Recharge",
-    "C40 Recharge", 
-    "EX40",       
-    "EC40",       
-    "EX30",        
-    "S90",       
-  ],
-  Yamaha: ["R15 V4", "MT-15", "FZ-S V3", "Fascino 125", "Aerox 155"],
-      };
-      const brandSelect = document.getElementById("Brand");
-      const modelSelect = document.getElementById("Model");
-      const otherModelInput = document.getElementById("OtherModel");
-      brandSelect.addEventListener("change", function () {
-        const selectedBrand = brandSelect.value;
-        modelSelect.innerHTML =
-          '<option value="" selected disabled>Select Model</option>';
-
-        if (modelData[selectedBrand]) {
-          modelData[selectedBrand].forEach((model) => {
-            const option = document.createElement("option");
-            option.value = model;
-            option.textContent = model;
-            modelSelect.appendChild(option);
-          });
-
-          // Add "Other" option
-          const otherOption = document.createElement("option");
-          otherOption.value = "Other";
-          otherOption.textContent = "Other";
-          modelSelect.appendChild(otherOption);
-
-          modelSelect.disabled = false;
-        } else {
-          modelSelect.disabled = true;
-        }
-
-        // Hide Other input when brand changes
-        otherModelContainer.style.display = "none";
-        otherModelInput.value = "";
-      });
-      // Model change
-      modelSelect.addEventListener("change", function () {
-        if (modelSelect.value === "Other") {
-          otherModelContainer.style.display = "block";
-          otherModelInput.focus();
-             otherModelInput.required = true;
-        } else {
-          otherModelContainer.style.display = "none";
-          otherModelInput.value = "";
-           otherModelInput.required = false;
-        }
-      });
-// Model change
-modelSelect.addEventListener("change", function () {
-  if (modelSelect.value === "Other") {
-    otherModelContainer.style.display = "block";
-    otherModelInput.required = true;
-    otherModelInput.focus();
+  var sheet;
+  if (storeName === "Ambience Mall") {
+    sheet = ss.getSheetByName("Ambience Mall");
+  } else if (storeName === "Pacific Mall ,Subhash Nagar") {
+    sheet = ss.getSheetByName("Pacific Mall");
+  } else if (storeName === "Promenade Mall") {
+    sheet = ss.getSheetByName("Promenade Mall");
   } else {
-    otherModelContainer.style.display = "none";
-    otherModelInput.value = "";
-    otherModelInput.required = false;
-  }
-});
-
-
-// ========================================== state and store===================================================
-const storeData = {
-  "Delhi NCR":["Ambience Mall", "Janakpuri", "Pacific Mall ,Subhash Nagar", "Promenade Mall"],
-  Gujarat:["Ahmedabad", "Surat", "Vadodara"],
-  Haryana:["Gurugram"],
-  Karnataka:["Bengaluru"],
-  "Madhya Pradesh":["Indore"],
-  Maharashtra:["Nagpur"],
-  Nagaland:["Dimapur"],
-  Punjab:["Mohali"],
-  Rajasthan: ["Jaipur", "Udaipur"],
-  "Uttar Pradesh": ["Agra", "Aligarh", "Lucknow", "Noida"],
-  Uttarakhand: ["Rudrapur"],
-};
-const allStates = [
-  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh","Delhi NCR", "Goa", "Gujarat",
-  "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra",
-  "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim",
-  "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal" 
-];
-const stateSelect = document.getElementById("State");
-const storeSelect = document.getElementById("Store");
-const otherStoreContainer = document.getElementById("otherStoreContainer");
-const otherStoreInput = document.getElementById("OtherStore");
-// Populate states
-allStates.forEach(state => {
-  const option = document.createElement("option");
-  option.value = state;
-  option.textContent = state;
-  stateSelect.appendChild(option);
-});
-// On state change
-stateSelect.addEventListener("change", function () {
-  const selectedState = stateSelect.value;
-  storeSelect.innerHTML = '<option value="" selected disabled>Select Store</option>';
-  otherStoreContainer.style.display = "none";
-  otherStoreInput.value = "";
-  otherStoreInput.required = false; // Reset required
-
-  if (storeData[selectedState]) {
-    storeData[selectedState].forEach(store => {
-      const option = document.createElement("option");
-      option.value = store;
-      option.textContent = store;
-      storeSelect.appendChild(option);
-    });
+    sheet = ss.getSheetByName("Others");
   }
 
-  // Add "Other" option
-  const otherOption = document.createElement("option");
-  otherOption.value = "Other";
-  otherOption.textContent = "Other";
-  storeSelect.appendChild(otherOption);
+  // ✅ Convert all values to UPPERCASE before saving
+  var regNo = data.Reg_No ? data.Reg_No.toString().toUpperCase() : "";
+  var fullName = data.fullName ? data.fullName.toString().toUpperCase() : "";
+  var phoneNumber = data.phoneNumber ? data.phoneNumber.toString().toUpperCase() : "";
+  var brand = data.Brand ? data.Brand.toString().toUpperCase() : "";
+  var model = data.Model ? data.Model.toString().toUpperCase() : "";
+  var carColor = data.car_color ? data.car_color.toString().toUpperCase() : "";
+  var carNumber = data.Car_Number ? data.Car_Number.toString().toUpperCase() : "";
+  var service = data.service ? data.service.toString().toUpperCase() : "";
+  var store = data.Store ? data.Store.toString().toUpperCase() : "";
+  var timeInput = data.timeInput ? data.timeInput.toString().toUpperCase() : "";
+  var sourceOfSale = data.sourceOfSale ? data.sourceOfSale.toString().toUpperCase() : "";
+  var paymentMode = data.paymentMode ? data.paymentMode.toString().toUpperCase() : "";
+  var totalAmount = data.totalAmount ? data.totalAmount.toString().toUpperCase() : "";
 
-  storeSelect.disabled = false;
-});
-// On store change
-storeSelect.addEventListener("change", function () {
-  if (storeSelect.value === "Other") {
-    otherStoreContainer.style.display = "block";
-    otherStoreInput.focus();
-    otherStoreInput.required = true; // Make required when visible
-  } else {
-    otherStoreContainer.style.display = "none";
-    otherStoreInput.value = "";
-    otherStoreInput.required = false; // Remove required when hidden
-  }
-});
-// // ================================colorchange , payment ,source====================================
-// document.getElementById("CarColor") .addEventListener("change", function () {
-//           let otherInput = document.getElementById("OtherColor");
-//           if (this.value === "Other") {
-//             otherInput.style.display = "block";
-//             otherInput.required = true; // Make it required when visible
-//           } else {
-//             otherInput.style.display = "none";
-//             otherInput.required = false;
-//           }
+  // ✅ Save in Sheet (all CAPS)
+  sheet.appendRow([
+    new Date(),
+    regNo,
+    fullName,
+    phoneNumber,
+    brand,
+    model,
+    carColor,
+    carNumber,
+    service,
+    store,
+    timeInput,
+    sourceOfSale,
+    paymentMode,
+    totalAmount
+  ]);
 
-//         });
+  // ✅ Email in UPPERCASE format
+  var subject = "Sales Data From " + store;
+  var body =
+    "<h2 style='color:#2c3e50;'> SALES DATA OF – " + fullName + "</h2>" +
+    "<table border='1' cellspacing='0' cellpadding='8' style='border-collapse:collapse;width:100%;font-family:Arial, sans-serif;font-size:14px;'>" +
+    "<tr><th align='left'>REG NO</th><td>" + regNo + "</td></tr>" +
+    "<tr><th align='left'>NAME</th><td>" + fullName + "</td></tr>" +
+    "<tr><th align='left'>PHONE</th><td>" + phoneNumber + "</td></tr>" +
+    "<tr><th align='left'>BRAND</th><td>" + brand + "</td></tr>" +
+    "<tr><th align='left'>MODEL</th><td>" + model + "</td></tr>" +
+    "<tr><th align='left'>VEHICLE COLOR</th><td>" + carColor + "</td></tr>" +
+    "<tr><th align='left'>VEHICLE NO</th><td>" + carNumber + "</td></tr>" +
+    "<tr><th align='left'>SERVICE</th><td>" + service + "</td></tr>" +
+    "<tr><th align='left'>STORE</th><td>" + store + "</td></tr>" +
+    "<tr><th align='left'>TIME</th><td>" + timeInput + "</td></tr>" +
+    "<tr><th align='left'>SOURCE OF SALE</th><td>" + sourceOfSale + "</td></tr>" +
+    "<tr><th align='left'>PAYMENT MODE</th><td>" + paymentMode + "</td></tr>" +
+    "<tr><th align='left'>TOTAL AMOUNT</th><td>" + totalAmount + "</td></tr>" +
+    "</table>" +
+    "<br><p>REGARDS,<br><b>" + store + "</b></p>";
 
+  GmailApp.sendEmail("dbstoredata@gmail.com", subject, "", { htmlBody: body });
 
+  return ContentService.createTextOutput(
+    JSON.stringify({ result: "SUCCESS", store: store })
+  ).setMimeType(ContentService.MimeType.JSON);
+} -->
 
-
-
-// // // ==========================================source=====
-
-
-// document.getElementById("SaleSource").addEventListener("change", function () {
-//   let marketingInput = document.getElementById("MarketingPersonName");
-//   if (this.value === "MarketingPerson") {
-//     marketingInput.style.display = "block";
-//     marketingInput.required = true; // Jab dikhe tab required
-//   } else {
-//     marketingInput.style.display = "none";
-//     marketingInput.required = false;
-//   }
-// });
-
-
-
-// Common function
-function toggleInput(selectId, conditions) {
-  const selectEl = document.getElementById(selectId);
-
-  selectEl.addEventListener("change", function () {
-    // sab inputs ko hide kar do
-    Object.values(conditions).forEach((id) => {
-      let inputEl = document.getElementById(id);
-      if (inputEl) {
-        inputEl.style.display = "none";
-        inputEl.required = false;
-      }
-    });
-
-    // ab sirf us value ka input dikhao jo select hua
-    if (conditions[this.value]) {
-      let activeInput = document.getElementById(conditions[this.value]);
-      activeInput.style.display = "block";
-      activeInput.required = true;
-    }
-  });
-}
-
-// ======================== CALLS ========================
-
-// Car Color → Other
-toggleInput("CarColor", {
-  Other: "OtherColor",
-});
-
-// Sale Source → MarketingPerson 
-toggleInput("SaleSource", {
-  MarketingPerson: "MarketingPersonName",
-});
-
-
-
-
-
-
-
-
-
-
-// "function doPost(e) { var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1"); // apna sheet name var data = JSON.parse(e.postData.contents); sheet.appendRow([ new Date(), data.Reg_No, data.fullName, data.phoneNumber, data.Brand, data.Model, data.car_color, data.Car_Number, data.service, data.Store, data.State, data.dateInput, data.timeInput ]); return ContentService.createTextOutput(JSON.stringify({ status: "success" })) .setMimeType(ContentService.MimeType.JSON); } function sendDailySummary() { var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1"); var data = sheet.getDataRange().getValues(); var today = new Date(); var todayStr = Utilities.formatDate(today, "Asia/Kolkata", "yyyy-MM-dd"); var message = "<h2>📌 Daily Report (" + todayStr + ")</h2>"; message += "<table border='1' cellspacing='0' cellpadding='5' style='border-collapse:collapse; font-family:Arial; font-size:14px;'>"; message += "<tr>"; data[0].forEach(h => message += "<th style='background:#f4f4f4;'>" + h + "</th>"); message += "</tr>"; var count = 0; for (var i = 1; i < data.length; i++) { var rowDate = Utilities.formatDate(new Date(data[i][0]), "Asia/Kolkata", "yyyy-MM-dd"); if (rowDate === todayStr) { count++; message += "<tr>"; data[i].forEach(val => message += "<td>" + (val || "") + "</td>"); message += "</tr>"; } } message += "</table>"; message += <p><b>Total Entries Today:</b> ${count}</p>; MailApp.sendEmail({ to: "yourmail@gmail.com", subject: "Daily Report - " + todayStr, htmlBody: message }); }"
