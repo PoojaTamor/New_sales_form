@@ -735,6 +735,14 @@ flatpickr("#serviceTime", {
           "X6",
           "Z4",
         ],
+        BYD: [
+  "Atto 3",
+  "Seal",
+  "E6",
+  "Dolphin",
+  "Tang",
+  "Song Plus",
+],
         Chevrolet: [
           "Aveo",
           "Aveo Old",
@@ -813,6 +821,13 @@ flatpickr("#serviceTime", {
           "Venue N-Line",
           "Xcent",
         ],
+        Isuzu: [
+  "MU-X",
+  "D-MAX V-Cross",
+  "Hi-Lander",
+  "S-Cab",
+  "S-Cab Z",
+],
           Jaguar: [
     "F-Pace",   
     "E-Pace",    
