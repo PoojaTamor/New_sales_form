@@ -776,6 +776,21 @@ flatpickr("#serviceTime", {
           "Mondeo",
           "Mustang",
         ],
+        Fiat: [
+  "500",
+  "500X",
+  "Panda",
+  "Tipo",
+  "Punto",
+  "Linea",
+  "Doblo",
+  "124 Spider",
+  "500L",
+  "Qubo",
+  "Fiorino",
+  "Uno",
+  "Multipla",
+],
       "Harley-Davidson": ["Iron 883", "Street 750", "Forty-Eight", "Fat Boy", "Road Glide"],
   Hero: ["Splendor Plus", "HF Deluxe", "Passion Pro", "Glamour", "Xtreme 160R"],
         Honda: [
@@ -1306,3 +1321,4 @@ toggleInput("SaleSource", {
 
 
 // "function doPost(e) { var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1"); // apna sheet name var data = JSON.parse(e.postData.contents); sheet.appendRow([ new Date(), data.Reg_No, data.fullName, data.phoneNumber, data.Brand, data.Model, data.car_color, data.Car_Number, data.service, data.Store, data.State, data.dateInput, data.timeInput ]); return ContentService.createTextOutput(JSON.stringify({ status: "success" })) .setMimeType(ContentService.MimeType.JSON); } function sendDailySummary() { var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1"); var data = sheet.getDataRange().getValues(); var today = new Date(); var todayStr = Utilities.formatDate(today, "Asia/Kolkata", "yyyy-MM-dd"); var message = "<h2>📌 Daily Report (" + todayStr + ")</h2>"; message += "<table border='1' cellspacing='0' cellpadding='5' style='border-collapse:collapse; font-family:Arial; font-size:14px;'>"; message += "<tr>"; data[0].forEach(h => message += "<th style='background:#f4f4f4;'>" + h + "</th>"); message += "</tr>"; var count = 0; for (var i = 1; i < data.length; i++) { var rowDate = Utilities.formatDate(new Date(data[i][0]), "Asia/Kolkata", "yyyy-MM-dd"); if (rowDate === todayStr) { count++; message += "<tr>"; data[i].forEach(val => message += "<td>" + (val || "") + "</td>"); message += "</tr>"; } } message += "</table>"; message += <p><b>Total Entries Today:</b> ${count}</p>; MailApp.sendEmail({ to: "yourmail@gmail.com", subject: "Daily Report - " + todayStr, htmlBody: message }); }"
+
