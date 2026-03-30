@@ -1150,6 +1150,24 @@ flatpickr("#serviceTime", {
     "EX30",        
     "S90",       
   ],
+        VinFast: [
+  "VF 3",
+  "VF 5",
+  "VF e34",
+  "VF 6",
+  "VF 7",
+  "VF 8",
+  "VF 9",
+  "Fadil",
+  "Lux A2.0",
+  "Lux SA2.0",
+  "President",
+  "VF Wild (Concept)",
+  "Minio",
+  "Herio",
+  "Nerio",
+  "Limo"
+],
   Yamaha: ["R15 V4", "MT-15", "FZ-S V3", "Fascino 125", "Aerox 155"],
       };
       const brandSelect = document.getElementById("Brand");
