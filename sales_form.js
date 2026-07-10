@@ -375,10 +375,13 @@ $(document).on("click", "#confirmSubmit", function () {
   };
 
   // ✅ Save to Google Sheet
-  fetch("https://script.google.com/macros/s/AKfycbwPjJfWIQWyn5hPQ8oC_zHFQ1veyiVog3Dhab5zrUlWsJ5HTnZcN2hKnmnOKJ4kbfYd/exec", {
-    method: "POST",
-  mode: "cors", // CORS मोड को स्पष्ट रूप से बताएं
-  redirect: "follow", // 👈 यह सबसे ज़रूरी है (Readirect हैंडल करने के लिए)
+  fetch("https://script.google.com/macros/s/AKfycbyKDK_AqhjclYqN5j1NS7xifXj2ThXfnpgHIi43W5aKQY2gscldB45gJ5egnvIscyCO/exec", {
+method: "POST",
+  mode: "cors", 
+  redirect: "follow", 
+  headers: {
+    "Content-Type": "text/plain;charset=utf-8" // 👈 इसे भी जोड़ लें, यह CORS एरर को रोकता है
+  },
     body: JSON.stringify(data)
   })
     .then(res => res.json())
