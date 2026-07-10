@@ -1231,7 +1231,7 @@ modelSelect.addEventListener("change", function () {
 const storeData = {
   "Delhi NCR":["Ambience Mall", "Janakpuri", "Pacific Mall ,Subhash Nagar", "Promenade Mall"],
   Gujarat:["Ahmedabad", "Surat", "Vadodara"],
-  Haryana:["Gurugram"],
+  Haryana:["Gurugram" ,"Gurugram(Ambience)"],
   Karnataka:["Bengaluru"],
   "Madhya Pradesh":["Indore"],
   Maharashtra:["Nagpur"],
