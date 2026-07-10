@@ -375,12 +375,15 @@ $(document).on("click", "#confirmSubmit", function () {
   };
 
   // ✅ Save to Google Sheet
-  fetch("https://script.google.com/macros/s/AKfycbxVUNJX8GSaYBGsiC_05g7MS0qtUqTd_bhccSMZ0Ijq37MpETXqPP9njLcOhkZsCoe0vg/exec", {
-    method: "POST",
-  mode: "cors", // CORS मोड को स्पष्ट रूप से बताएं
-  redirect: "follow", // 👈 यह सबसे ज़रूरी है (Readirect हैंडल करने के लिए)
-    body: JSON.stringify(data)
-  })
+fetch("https://script.google.com/macros/s/AKfycbxI4jM6vahGczk7zCHKmxBD5xSd0iubroC2dPH1l2MS7yEvfRc0W9Z0yNYQweRN774loA/exec", {
+  method: "POST",
+  mode: "cors", 
+  redirect: "follow", 
+  headers: {
+    "Content-Type": "text/plain;charset=utf-8" 
+  },
+  body: JSON.stringify(data)
+})
     .then(res => res.json())
     .then(() => {
       Swal.fire({
