@@ -375,7 +375,7 @@ $(document).on("click", "#confirmSubmit", function () {
   };
 
   // ✅ Save to Google Sheet
-  fetch("https://script.google.com/macros/s/AKfycbyKDK_AqhjclYqN5j1NS7xifXj2ThXfnpgHIi43W5aKQY2gscldB45gJ5egnvIscyCO/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbxzLB1ftoj7xkLRM8frdBWpKHrc06yR1tIutNVY6ss4G-TEHl0fa47sA1VJdLeekLbmzg/exec", {
 method: "POST",
   mode: "cors", 
   redirect: "follow", 
