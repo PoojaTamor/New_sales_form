@@ -375,8 +375,10 @@ $(document).on("click", "#confirmSubmit", function () {
   };
 
   // ✅ Save to Google Sheet
-  fetch("https://script.google.com/macros/s/AKfycbyA2gkiM0CN--ojkZQLcvRpPxI3QpCcL1qogyu3v7f2IU6EIdw7kj-mcm_Na2379RVk/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbwPjJfWIQWyn5hPQ8oC_zHFQ1veyiVog3Dhab5zrUlWsJ5HTnZcN2hKnmnOKJ4kbfYd/exec", {
     method: "POST",
+  mode: "cors", // CORS मोड को स्पष्ट रूप से बताएं
+  redirect: "follow", // 👈 यह सबसे ज़रूरी है (Readirect हैंडल करने के लिए)
     body: JSON.stringify(data)
   })
     .then(res => res.json())
